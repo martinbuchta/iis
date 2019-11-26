@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -38,6 +39,17 @@ class Seat
      * @ORM\JoinColumn(name="hall_id", referencedColumnName="id")
      */
     private $hall;
+
+    /**
+     * @var ArrayCollection
+     * @ORM\OneToMany(targetEntity="Ticket", mappedBy="seat")
+     */
+    private $tickets;
+
+    public function __construct()
+    {
+        $this->tickets = new ArrayCollection();
+    }
 
     /**
      * @return int|null

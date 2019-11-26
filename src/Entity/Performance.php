@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -29,7 +30,7 @@ class Performance
      * @var float
      * @ORM\Column(type="float")
      */
-    private $prize;
+    private $price;
 
     /**
      * @var Play
@@ -45,10 +46,17 @@ class Performance
      */
     private $hall;
 
+    /**
+     * @var ArrayCollection
+     * @ORM\OneToMany(targetEntity="Ticket", mappedBy="performance")
+     */
+    private $tickets;
+
     public function __construct()
     {
         $this->time = new \DateTime();
-        $this->prize = 0.;
+        $this->price = 0.;
+        $this->tickets = new ArrayCollection();
     }
 
     /**
@@ -78,17 +86,17 @@ class Performance
     /**
      * @return float
      */
-    public function getPrize(): float
+    public function getPrice(): float
     {
-        return $this->prize;
+        return $this->price;
     }
 
     /**
-     * @param float $prize
+     * @param float $price
      */
-    public function setPrize(float $prize): void
+    public function setPrice(float $price): void
     {
-        $this->prize = $prize;
+        $this->price = $price;
     }
 
     /**
