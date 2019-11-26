@@ -57,6 +57,12 @@ class Play
      */
     private $category;
 
+    /**
+     * @var ArrayCollection
+     * @ORM\OneToMany(targetEntity="Performance", mappedBy="play")
+     */
+    private $performances;
+
     public function __construct()
     {
         $this->name = "";
@@ -64,6 +70,7 @@ class Play
         $this->image = "";
         $this->rating = 0;
         $this->genres = new ArrayCollection();
+        $this->performances = new ArrayCollection();
     }
 
     /**
