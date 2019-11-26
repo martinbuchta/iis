@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -44,6 +45,12 @@ class User implements UserInterface
      * @ORM\Column(type="string")
      */
     private $password;
+
+    /**
+     * @var ArrayCollection
+     * @ORM\OneToMany(targetEntity="Reservation", mappedBy="user")
+     */
+    private $reservations;
 
     public function getId(): ?int
     {
@@ -149,5 +156,13 @@ class User implements UserInterface
     public function setSurname($surname): void
     {
         $this->surname = $surname;
+    }
+
+    /**
+     * @return ArrayCollection
+     */
+    public function getReservations(): ArrayCollection
+    {
+        return $this->reservations;
     }
 }

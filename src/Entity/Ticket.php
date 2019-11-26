@@ -41,6 +41,13 @@ class Ticket
      */
     private $performance;
 
+    /**
+     * @var Reservation
+     * @ORM\ManyToOne(targetEntity="Reservation", inversedBy="tickets")
+     * @ORM\JoinColumn(name="reservation_id", referencedColumnName="id")
+     */
+    private $reservation;
+
     public function __construct()
     {
         $this->price = 0.;
@@ -84,5 +91,37 @@ class Ticket
     public function setSeat(Seat $seat): void
     {
         $this->seat = $seat;
+    }
+
+    /**
+     * @return Performance
+     */
+    public function getPerformance(): Performance
+    {
+        return $this->performance;
+    }
+
+    /**
+     * @param Performance $performance
+     */
+    public function setPerformance(Performance $performance): void
+    {
+        $this->performance = $performance;
+    }
+
+    /**
+     * @return Reservation
+     */
+    public function getReservation(): Reservation
+    {
+        return $this->reservation;
+    }
+
+    /**
+     * @param Reservation $reservation
+     */
+    public function setReservation(Reservation $reservation): void
+    {
+        $this->reservation = $reservation;
     }
 }
