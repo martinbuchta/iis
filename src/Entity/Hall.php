@@ -45,12 +45,19 @@ class Hall
      */
     private $performances;
 
+    /**
+     * @var ArrayCollection
+     * @ORM\OneToMany(targetEntity="Seat", mappedBy="hall")
+     */
+    private $seats;
+
     public function __construct()
     {
         $this->performances = new ArrayCollection();
         $this->rowCount = 0;
         $this->seatsInRow = 0;
         $this->address = "";
+        $this->seats = new ArrayCollection();
     }
 
     /**
