@@ -38,6 +38,13 @@ class Performance
      */
     private $play;
 
+    /**
+     * @var Hall
+     * @ORM\ManyToOne(targetEntity="Hall", inversedBy="performances")
+     * @ORM\JoinColumn(name="hall_id", referencedColumnName="id")
+     */
+    private $hall;
+
     public function __construct()
     {
         $this->time = new \DateTime();
@@ -83,4 +90,37 @@ class Performance
     {
         $this->prize = $prize;
     }
+
+    /**
+     * @return Play
+     */
+    public function getPlay(): Play
+    {
+        return $this->play;
+    }
+
+    /**
+     * @param Play $play
+     */
+    public function setPlay(Play $play): void
+    {
+        $this->play = $play;
+    }
+
+    /**
+     * @return Hall
+     */
+    public function getHall(): Hall
+    {
+        return $this->hall;
+    }
+
+    /**
+     * @param Hall $hall
+     */
+    public function setHall(Hall $hall): void
+    {
+        $this->hall = $hall;
+    }
+
 }
