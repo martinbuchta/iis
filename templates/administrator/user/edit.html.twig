@@ -26,7 +26,7 @@
                 <div class="col-12">
                     <div class="card">
                         <div class="card-body">
-                            <a href="#" class="btn btn-danger" onclick="return confirm('Opravdu si přejete smazat uživatele {{ user.name }} {{ user.surname }} ({{ user.email }})?')">
+                            <a href="{{ url('administrator_remove_user', {'id': user.id}) }}" class="btn btn-danger" onclick="return confirm('Opravdu si přejete smazat uživatele {{ user.name }} {{ user.surname }} ({{ user.email }})?')">
                                 <i class="fa fa-trash-alt"></i> Smazat uživatele
                             </a>
                         </div>

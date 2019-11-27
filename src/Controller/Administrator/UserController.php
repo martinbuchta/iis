@@ -32,6 +32,18 @@ class UserController extends AbstractController
 
     /**
      * @IsGranted("ROLE_ADMINISTRATOR")
+     * @Route("/admin/users/{id}/remove", name="administrator_remove_user")
+     */
+    public function remove(User $user, EntityManagerInterface $entityManager)
+    {
+        $entityManager->remove($user);
+        $entityManager->flush();
+        $this->addFlash('success', 'Uživatel byl odstraněn.');
+        return new RedirectResponse($this->generateUrl('administrator_manage_users'));
+    }
+
+    /**
+     * @IsGranted("ROLE_ADMINISTRATOR")
      * @Route("/admin/users/add", name="administrator_add_user")
      */
     public function create(Request $request, EntityManagerInterface $entityManager, PasswordChanger $passwordChanger)
