@@ -4,11 +4,14 @@ namespace App\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Class Play
  * @ORM\Entity()
  * @ORM\Table()
+ * @UniqueEntity(fields={"name"}, message="Inscenace s tímto jménem již existuje.")
  */
 class Play
 {
@@ -21,7 +24,8 @@ class Play
 
     /**
      * @var string
-     * @ORM\Column(type="string", length=100)
+     * @ORM\Column(type="string", length=100, unique=true)
+     * @Assert\NotBlank()
      */
     private $name;
 
@@ -32,14 +36,19 @@ class Play
     private $image;
 
     /**
-     * @var string
-     * @ORM\Column(type="text")
+     * @var string|null
+     * @ORM\Column(type="text", nullable=true)
      */
     private $staring;
 
     /**
      * @var int
      * @ORM\Column(type="integer")
+     * @Assert\Range(
+     *      min = 1,
+     *      max = 5,
+     *      notInRangeMessage = "Hodnota musí být mezi 1 až 5."
+     * )
      */
     private $rating;
 
@@ -66,9 +75,8 @@ class Play
     public function __construct()
     {
         $this->name = "";
-        $this->staring = "";
         $this->image = "";
-        $this->rating = 0;
+        $this->rating = 1;
         $this->genres = new ArrayCollection();
         $this->performances = new ArrayCollection();
     }
@@ -114,17 +122,17 @@ class Play
     }
 
     /**
-     * @return string
+     * @return string|null
      */
-    public function getStaring(): string
+    public function getStaring(): ?string
     {
         return $this->staring;
     }
 
     /**
-     * @param string $staring
+     * @param string|null $staring
      */
-    public function setStaring(string $staring): void
+    public function setStaring(?string $staring): void
     {
         $this->staring = $staring;
     }

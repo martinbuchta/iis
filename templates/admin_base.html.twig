@@ -108,6 +108,16 @@
                             </a>
                         </li>
                     {% endif %}
+                    {% if is_granted('ROLE_REDAKTOR') %}
+                        <li class="nav-item">
+                            <a href="{{ url('redaktor_play_list') }}" class="nav-link {% if app.request.pathInfo == path('redaktor_play_list') %}active{% endif %}">
+                                <i class="nav-icon fas fa-building"></i>
+                                <p>
+                                    Inscenace
+                                </p>
+                            </a>
+                        </li>
+                    {% endif %}
                 </ul>
             </nav>
             <!-- /.sidebar-menu -->
@@ -184,5 +194,25 @@
 <script src="/iis/public/AdminLTE-3.0.1/dist/js/pages/dashboard.js"></script>
 <!-- AdminLTE for demo purposes -->
 <script src="/iis/public/AdminLTE-3.0.1/dist/js/demo.js"></script>
+<script src="https://cdn.ckeditor.com/ckeditor5/15.0.0/classic/ckeditor.js"></script>
+
+<script>
+    ClassicEditor.defaultConfig = {
+        toolbar: [ 'heading', '|', 'bold', 'italic', 'link', 'bulletedList', 'numberedList', 'blockQuote'
+        ],
+
+        // This value must be kept in sync with the language defined in webpack.config.js.
+        language: 'cs'
+    };
+    ClassicEditor
+        .create( document.querySelector( '.ckeditor' ) )
+        .then( editor => {
+            console.log( editor );
+        } )
+        .catch( error => {
+            console.error( error );
+        } );
+</script>
+
 </body>
 </html>
