@@ -36,7 +36,7 @@ class Seat
     /**
      * @var Hall
      * @ORM\ManyToOne(targetEntity="Hall", inversedBy="seats")
-     * @ORM\JoinColumn(name="hall_id", referencedColumnName="id")
+     * @ORM\JoinColumn(name="hall_id", referencedColumnName="id", onDelete="CASCADE")
      */
     private $hall;
 

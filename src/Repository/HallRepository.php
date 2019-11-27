@@ -20,7 +20,7 @@ class HallRepository extends ServiceEntityRepository
         $this->connection = $connection;
     }
 
-    public function isOrderToHall(Hall $hall): bool
+    public function existOrderToHall(Hall $hall): bool
     {
         $stmt = $this->connection->executeQuery("
                 SELECT COUNT(*) AS pocet 

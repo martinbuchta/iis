@@ -52,6 +52,23 @@ class HallController extends AbstractController
     }
 
     /**
+     * @Route("/admin/hall/{id}/remove", name="redaktor_hall_remove")
+     * @IsGranted("ROLE_REDAKTOR")
+     */
+    public function remove(Hall $hall, EntityManagerInterface $entityManager, HallRepository $hallRepository)
+    {
+        if ($hallRepository->existOrderToHall($hall)) {
+            $this->addFlash('danger', 'K tomuto sálu existuje rezervace. Smažte rezervace k tomuto sálu, nebo vytvořte nový sál.');
+            return new RedirectResponse($this->generateUrl('redaktor_hall_edit', ['id' => $hall->getId()]));
+        }
+
+        $entityManager->remove($hall);
+        $entityManager->flush();
+        $this->addFlash('success', 'Sál byl odstraněn.');
+        return new RedirectResponse($this->generateUrl('redaktor_hall_list'));
+    }
+
+    /**
      * @Route("/admin/hall/{id}", name="redaktor_hall_edit")
      * @IsGranted("ROLE_REDAKTOR")
      */
@@ -69,7 +86,7 @@ class HallController extends AbstractController
         $seats = $hall->getRowCount();
 
         if ($form->isSubmitted() && $form->isValid()) {
-            if ($hallRepository->isOrderToHall($hall) && ($hall->getRowCount() < $rows || $hall->getSeatsInRow() < $seats)) {
+            if ($hallRepository->existOrderToHall($hall) && ($hall->getRowCount() < $rows || $hall->getSeatsInRow() < $seats)) {
                 $this->addFlash('danger', 'Nemůžete zmenšovat sál, pokud existují rezervace k tomuto sálu. Nejdříve smažte rezervace, vytvořte nový sál.');
                 return new RedirectResponse($request->getUri());
             }
