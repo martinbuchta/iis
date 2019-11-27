@@ -46,9 +46,10 @@ class Seat
      */
     private $tickets;
 
-    public function __construct()
+    public function __construct(Hall $hall)
     {
         $this->tickets = new ArrayCollection();
+        $this->hall = $hall;
     }
 
     /**
