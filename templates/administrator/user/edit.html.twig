@@ -26,7 +26,10 @@
                 <div class="col-12">
                     <div class="card">
                         <div class="card-body">
-                            <a href="{{ url('administrator_remove_user', {'id': user.id}) }}" class="btn btn-danger" onclick="return confirm('Opravdu si přejete smazat uživatele {{ user.name }} {{ user.surname }} ({{ user.email }})?')">
+                            <a href="{{ url('administrator_remove_user', {'id': user.id}) }}"
+                               class="btn btn-danger {% if user.id == app.user.id %}disabled{% endif %}"
+                                {% if user.id == app.user.id %}title="Nemůžete smazat vlastní účet"{% endif %}
+                               onclick="return confirm('Opravdu si přejete smazat uživatele {{ user.name }} {{ user.surname }} ({{ user.email }})?')">
                                 <i class="fa fa-trash-alt"></i> Smazat uživatele
                             </a>
                         </div>

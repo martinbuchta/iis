@@ -36,6 +36,11 @@ class UserController extends AbstractController
      */
     public function remove(User $user, EntityManagerInterface $entityManager)
     {
+        if ($user->getId() == $this->getUser()->getId()) {
+            $this->addFlash('danger', 'Nemůžete smazat svůj vlastní účet. Přidělte práva někomu jinému a požádejte ho, aby váš účet smazal.');
+            return new RedirectResponse($this->generateUrl('administrator_manage_user', ['id' => $user->getId()]));
+        }
+
         $entityManager->remove($user);
         $entityManager->flush();
         $this->addFlash('success', 'Uživatel byl odstraněn.');

@@ -43,6 +43,7 @@
                                     <th>Jméno</th>
                                     <th>Příjmení</th>
                                     <th>Email</th>
+                                    <th>Role</th>
                                 </tr>
                                 </thead>
                                 <tbody>
@@ -52,6 +53,17 @@
                                         <td>{{ user.name }}</td>
                                         <td>{{ user.surname }}</td>
                                         <td>{{ user.email }}</td>
+                                        <td>
+                                            {% if user.role == "ROLE_ADMINISTRATOR" %}
+                                                Administrátor
+                                            {% elseif user.role == "ROLE_REDAKTOR" %}
+                                                Redaktor
+                                            {% elseif user.role == "ROLE_POKLADNI" %}
+                                                Pokladní
+                                            {% elseif user.role == "ROLE_DIVAK" %}
+                                                Divák
+                                            {% endif %}
+                                        </td>
                                     </tr>
                                 {% endfor %}
                                 </tbody>
