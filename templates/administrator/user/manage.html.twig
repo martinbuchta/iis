@@ -1,0 +1,26 @@
+{% extends 'admin_base.html.twig' %}
+
+{% block body %}
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>#</th>
+            <th>Jméno</th>
+            <th>Příjmení</th>
+            <th>Email</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for user in users %}
+            <tr onclick="window.location='#';">
+                <td>{{ user.id }}</td>
+                <td>{{ user.name }}</td>
+                <td>{{ user.surname }}</td>
+                <td>{{ user.email }}</td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+{% endblock %}
