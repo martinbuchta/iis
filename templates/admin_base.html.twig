@@ -69,7 +69,7 @@
         <a href="{{ url("admin") }}" class="brand-link">
             <img src="https://medusa.fit.vutbr.cz/traffic/wp-content/logos/fit.png" alt="AdminLTE Logo" class="brand-image  elevation-3"
                  style="opacity: .8">
-            <span class="brand-text font-weight-light">VUT</span>
+            <span class="brand-text font-weight-light" style="opacity: 0">VUT</span>
         </a>
 
         <!-- Sidebar -->
@@ -109,6 +109,19 @@
 
     <!-- Content Wrapper. Contains page content -->
     <div class="content-wrapper">
+        {% set flashes = app.flashes %}
+        {% if flashes | length > 0 %}
+            <div style="padding: 15px">
+                {% for label, messages in flashes %}
+                    {% for message in messages %}
+                        <div class="alert alert-{{ label }} alert-dismissible">
+                            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                            {{ message }}
+                        </div>
+                    {% endfor %}
+                {% endfor %}
+            </div>
+        {% endif %}
         {% block body %}{% endblock %}
         {% block javascripts %}{% endblock %}
     </div>

@@ -1,5 +1,7 @@
 {% extends 'admin_base.html.twig' %}
 
+{% block title %}Správa uživatelů | Vstupenky{% endblock %}
+
 {% block body %}
     <section class="content-header">
         <div class="container-fluid">
@@ -38,7 +40,7 @@
                                 </thead>
                                 <tbody>
                                 {% for user in users %}
-                                    <tr onclick="window.location='#';">
+                                    <tr onclick="window.location='{{ url("administrator_manage_user", {"id": user.id}) }}';">
                                         <td>{{ user.id }}</td>
                                         <td>{{ user.name }}</td>
                                         <td>{{ user.surname }}</td>
@@ -56,4 +58,12 @@
         </div>
     </section>
 
+{% endblock %}
+
+{% block stylesheets %}
+<style>
+    section table tbody tr {
+        cursor: pointer;
+    }
+</style>
 {% endblock %}
