@@ -2,7 +2,9 @@
 
 namespace App\Controller;
 
+use App\Security\SecurityVoter;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -19,10 +21,13 @@ class HomepageController extends AbstractController
 
     /**
      * @Route("/admin", name="admin")
-     * @IsGranted("ROLE_REDAKTOR")
      */
-    public function admin()
+    public function admin(SecurityVoter $securityVoter)
     {
-        return new Response("<html><body>admin</body></html>");
+        $securityVoter->onlyRedaktorOrPokladni();
+
+        return $this->render('admin_dashboard.html.twig', [
+
+        ]);
     }
 }

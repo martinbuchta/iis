@@ -35,3 +35,7 @@ security:
     access_control:
         # - { path: ^/admin, roles: ROLE_ADMIN }
         # - { path: ^/profile, roles: ROLE_USER }
+    role_hierarchy:
+        ROLE_ADMINISTRATOR: [ROLE_DIVAK, ROLE_REDAKTOR, ROLE_POKLADNI]
+        ROLE_REDAKTOR: ROLE_DIVAK
+        ROLE_POKLADNI: ROLE_DIVAK
