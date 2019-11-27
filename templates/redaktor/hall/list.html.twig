@@ -44,7 +44,7 @@
                                 </thead>
                                 <tbody>
                                 {% for hall in halls %}
-                                    <tr onclick="window.location='{{ url("administrator_manage_user", {"id": hall.id}) }}';">
+                                    <tr onclick="window.location='{{ url("redaktor_hall_edit", {"id": hall.id}) }}';">
                                         <td>{{ hall.id }}</td>
                                         <td>{{ hall.name }}</td>
                                     </tr>
