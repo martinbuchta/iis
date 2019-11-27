@@ -47,7 +47,7 @@ class Reservation
 
     /**
      * @var ArrayCollection
-     * @ORM\OneToMany(targetEntity="Ticket", mappedBy="reservation_id")
+     * @ORM\OneToMany(targetEntity="Ticket", mappedBy="reservation")
      */
     private $tickets;
 

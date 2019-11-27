@@ -3,6 +3,7 @@
 namespace App\Controller\Administrator;
 
 use App\Entity\User;
+use App\Form\RegistrationFormType;
 use App\Form\UserAdminType;
 use App\Form\UserChangePasswordType;
 use App\Repository\UserRepository;
@@ -26,6 +27,29 @@ class UserController extends AbstractController
 
         return $this->render('administrator/user/manage.html.twig', [
             'users' => $users,
+        ]);
+    }
+
+    /**
+     * @IsGranted("ROLE_ADMINISTRATOR")
+     * @Route("/admin/users/add", name="administrator_add_user")
+     */
+    public function create(Request $request, EntityManagerInterface $entityManager, PasswordChanger $passwordChanger)
+    {
+        $user = new User();
+        $form = $this->createForm(RegistrationFormType::class, $user);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $passwordChanger->changePassword($user, $form->get('plainPassword')->getData());
+            $entityManager->persist($user);
+            $entityManager->flush();
+            $this->addFlash('success', 'Nový uživatel byl vytvořen.');
+            return new RedirectResponse($this->generateUrl('administrator_manage_users'));
+        }
+
+        return $this->render('administrator/user/register.html.twig', [
+            'form' => $form->createView(),
         ]);
     }
 
