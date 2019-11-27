@@ -22,6 +22,12 @@ class Hall
     private $id;
 
     /**
+     * @var string
+     * @ORM\Column(type="string", length=255)
+     */
+    private $name;
+
+    /**
      * @var int
      * @ORM\Column(type="integer")
      */
@@ -57,6 +63,7 @@ class Hall
         $this->rowCount = 0;
         $this->seatsInRow = 0;
         $this->address = "";
+        $this->name = "";
         $this->seats = new ArrayCollection();
     }
 
@@ -114,5 +121,21 @@ class Hall
     public function setAddress(string $address): void
     {
         $this->address = $address;
+    }
+
+    /**
+     * @return string
+     */
+    public function getName(): string
+    {
+        return $this->name;
+    }
+
+    /**
+     * @param string $name
+     */
+    public function setName(string $name): void
+    {
+        $this->name = $name;
     }
 }
