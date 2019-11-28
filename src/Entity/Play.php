@@ -160,4 +160,20 @@ class Play
     {
         return $this->genres;
     }
+
+    /**
+     * @return Category|null
+     */
+    public function getCategory(): ?Category
+    {
+        return $this->category;
+    }
+
+    /**
+     * @param Category $category
+     */
+    public function setCategory(Category $category): void
+    {
+        $this->category = $category;
+    }
 }

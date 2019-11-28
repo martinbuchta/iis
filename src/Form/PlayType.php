@@ -16,6 +16,10 @@ class PlayType extends AbstractType
             ->add('name', null, ['label' => 'Název'])
             ->add('staring', null, ['label' => 'Obsazení', 'attr' => ['class' => 'ckeditor']])
             ->add('rating', null, ['label' => 'Hodnocení (1-5)'])
+            ->add('category', null, [
+                'label' => 'Kategorie',
+                'placeholder' => 'Vyberte kategorii',
+            ])
         ;
     }
 

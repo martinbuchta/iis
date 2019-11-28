@@ -2,14 +2,21 @@
 
 namespace App\Controller\Redaktor;
 
+use App\Entity\Category;
 use App\Entity\Play;
 use App\Form\PlayType;
 use App\Repository\PlayRepository;
 use App\Utils\Play\PlayManager;
+use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
+use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityManagerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Finder\Exception\AccessDeniedException;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\Routing\Annotation\Route;
 
 class PlayController extends AbstractController
@@ -29,6 +36,7 @@ class PlayController extends AbstractController
 
     /**
      * @Route("/admin/play/add", name="redaktor_play_add")
+     * @IsGranted("ROLE_REDAKTOR")
      */
     public function add(Request $request, PlayManager $playManager)
     {
@@ -45,5 +53,25 @@ class PlayController extends AbstractController
         return $this->render('redaktor/play/add.html.twig', [
             'form' => $form->createView(),
         ]);
+    }
+
+    /**
+     * @Route("/admin/play/add-category", name="redaktor_play_category_add")
+     * @IsGranted("ROLE_REDAKTOR")
+     */
+    public function addCategory(Request $request, EntityManagerInterface $entityManager)
+    {
+        $name = $request->get('name');
+        $category = new Category();
+        $category->setName($name);
+
+        try {
+            $entityManager->persist($category);
+            $entityManager->flush();
+        } catch (UniqueConstraintViolationException $exception) {
+            throw new BadRequestHttpException();
+        }
+
+        return new JsonResponse(["id" => $category->getId(), "name" => $category->getName()]);
     }
 }
