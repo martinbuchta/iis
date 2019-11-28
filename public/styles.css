@@ -27,3 +27,30 @@ section table.table-hover tbody tr {
     margin-top: -25px;
     margin-bottom: 50px;
 }
+
+.page-header {
+    margin-bottom: 25px;
+}
+
+.homepage .card-title {
+    position: relative;
+    top: 7px;
+}
+
+.homepage .img-thumbnail {
+    height: 169px;
+    width: 100%;
+    object-fit: cover;
+}
+
+.homepage .performances .card {
+    margin-bottom: 30px;
+}
+
+.homepage .performances a {
+    color: #444444;
+}
+
+.homepage .performances a:hover {
+    text-decoration: none;
+}

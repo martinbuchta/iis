@@ -2,20 +2,38 @@
 
 {% block body %}
     <div class="container">
-        <div class="row">
+        <div class="row performances">
+            <div class="col-12">
+                <div class="page-header">
+                    <h1>Nejbližší představení</h1>
+                </div>
+            </div>
             {% for performance in performances %}
-                <div class="col-md-4 col-sm-6">
-                    <div class="card">
-                        <div class="card-header">
-                            <h3 class="card-title">{{ performance.play.name }}</h3>
+                <div class="col-lg-4 col-md-6">
+                    <a href="#">
+                        <div class="card">
+                            <div class="card-header">
+                                <h3 class="card-title">{{ performance.play.name }}</h3>
+                            </div>
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        <p>
+                                            {{ performance.time | date('j.n.Y H.i') }}
+                                        </p>
+                                    </div>
+                                    <div class="col-sm-6 text-right">
+                                        {% for i in 1..performance.play.rating %}
+                                            <span class="fa fa-star"></span>
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                                {% if performance.play.image | length > 0 %}
+                                    <img src="/iis/public/uploads/{{ performance.play.image }}" class="img-thumbnail">
+                                {% endif %}
+                            </div>
                         </div>
-                        <div class="card-body">
-                            {{ performance.time | date('j.n.Y H.i') }}
-                            {% if performance.play.image | length > 0 %}
-                                <img src="/iis/public/uploads/{{ performance.play.image }}" class="img-thumbnail">
-                            {% endif %}
-                        </div>
-                    </div>
+                    </a>
                 </div>
             {% endfor %}
         </div>
