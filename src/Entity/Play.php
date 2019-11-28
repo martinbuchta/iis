@@ -191,4 +191,12 @@ class Play
     {
         $this->category = $category;
     }
+
+    /**
+     * @return array
+     */
+    public function getPerformances(): array
+    {
+        return $this->performances->toArray();
+    }
 }

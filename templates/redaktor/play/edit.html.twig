@@ -91,6 +91,37 @@
                         {{ form_end(form) }}
                     </div>
                 </div>
+                <div class="col-lg-6">
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="card-title">Představení této inscenace</h3>
+                        </div>
+                        <div class="card-body">
+                            {% if play.performances | length < 1 %}
+                                <p>Tato inscenace nemá žádné představení.</p>
+                            {% else %}
+                                <table class="table table-hover">
+                                    <thead>
+                                    <tr>
+                                        <th>#</th>
+                                        <th>Datum</th>
+                                        <th>Cena</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    {% for performance in play.performances %}
+                                        <tr onclick="window.location='{{ url("redaktor_performance_edit", {"id": performance.id}) }}';">
+                                            <td>{{ performance.id }}</td>
+                                            <td>{{ performance.time | date('j. n. Y H.i') }}</td>
+                                            <td>{{ performance.price | number_format(2, ' ', ',') }} Kč</td>
+                                        </tr>
+                                    {% endfor %}
+                                    </tbody>
+                                </table>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </section>
