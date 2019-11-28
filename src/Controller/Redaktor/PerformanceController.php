@@ -20,7 +20,7 @@ class PerformanceController extends AbstractController
      */
     public function list(PerformanceRepository $performanceRepository)
     {
-        $performances = $performanceRepository->findAll();
+        $performances = $performanceRepository->findBy([], ['time' => 'ASC']);
 
         return $this->render('redaktor/performance/list.html.twig', [
             'performances' => $performances,
@@ -45,6 +45,26 @@ class PerformanceController extends AbstractController
         }
 
         return $this->render('redaktor/performance/add.html.twig', [
+            'form' => $form->createView(),
+        ]);
+    }
+
+    /**
+     * @Route("/admin/performance/{id}", name="redaktor_performance_edit")
+     */
+    public function edit(Performance $performance, Request $request, EntityManagerInterface $entityManager)
+    {
+        $form = $this->createForm(PerformanceType::class, $performance);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $entityManager->flush();
+            $this->addFlash('success', 'Představení bylo upraveno.');
+            return new RedirectResponse($this->generateUrl('redaktor_performance_list'));
+        }
+
+        return $this->render('redaktor/performance/edit.html.twig', [
+            'performance' => $performance,
             'form' => $form->createView(),
         ]);
     }

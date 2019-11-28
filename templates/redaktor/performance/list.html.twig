@@ -41,14 +41,16 @@
                                     <th>#</th>
                                     <th>Datum</th>
                                     <th>Název inscenace</th>
+                                    <th>Cena</th>
                                 </tr>
                                 </thead>
                                 <tbody>
                                 {% for performance in performances %}
-                                    <tr onclick="window.location='{{ url("redaktor_hall_edit", {"id": performance.id}) }}';">
+                                    <tr onclick="window.location='{{ url("redaktor_performance_edit", {"id": performance.id}) }}';">
                                         <td>{{ performance.id }}</td>
                                         <td>{{ performance.play.name }}</td>
                                         <td>{{ performance.time | date('j. n. Y H.i') }}</td>
+                                        <td>{{ performance.price | number_format(2, ',', ' ') }} Kč</td>
                                     </tr>
                                 {% endfor %}
                                 </tbody>

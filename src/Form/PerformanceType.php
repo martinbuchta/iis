@@ -5,6 +5,7 @@ namespace App\Form;
 use App\Entity\Performance;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
+use Symfony\Component\Form\Extension\Core\Type\MoneyType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -26,8 +27,9 @@ class PerformanceType extends AbstractType
                 'widget' => 'single_text',
                 'with_seconds' => false,
             ])
-            ->add('price', null, [
+            ->add('price', MoneyType::class, [
                 'label' => 'Cena za vstupenku',
+                'currency' => 'CZK',
             ])
         ;
     }

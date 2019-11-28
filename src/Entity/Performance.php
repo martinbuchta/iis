@@ -72,6 +72,11 @@ class Performance
         return $this->id;
     }
 
+    public function getName(): string
+    {
+        return $this->play->getName() . ' - ' . $this->time->format('j.n.Y H.i');
+    }
+
     /**
      * @return \DateTime
      */
