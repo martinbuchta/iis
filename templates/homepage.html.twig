@@ -1,0 +1,23 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div class="container">
+        <div class="row">
+            {% for performance in performances %}
+                <div class="col-md-4 col-sm-6">
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="card-title">{{ performance.play.name }}</h3>
+                        </div>
+                        <div class="card-body">
+                            {{ performance.time | date('j.n.Y H.i') }}
+                            {% if performance.play.image | length > 0 %}
+                                <img src="/iis/public/uploads/{{ performance.play.image }}" class="img-thumbnail">
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}

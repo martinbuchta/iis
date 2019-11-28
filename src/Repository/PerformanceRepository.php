@@ -12,4 +12,13 @@ class PerformanceRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Performance::class);
     }
+
+    public function findAllFutures()
+    {
+        return $this->createQueryBuilder('p')
+            ->andWhere('p.time > :time')
+            ->setParameter('time', new \DateTime())
+            ->getQuery()
+            ->getResult();
+    }
 }

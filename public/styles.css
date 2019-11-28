@@ -6,3 +6,11 @@
 section table.table-hover tbody tr {
     cursor: pointer;
 }
+
+.navbar-brand img {
+    max-height: 42px;
+}
+
+.navbar-left {
+    margin-left: 15px;
+}
