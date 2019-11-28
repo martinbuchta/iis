@@ -124,6 +124,29 @@ class PlayController extends AbstractController
     }
 
     /**
+     * @Route("/admin/play/{id}-remove", name="redaktor_play_remove")
+     */
+    public function remove(Play $play, EntityManagerInterface $entityManager, FileUploader $fileUploader)
+    {
+        $filename = $play->getImage();
+
+        try {
+            $entityManager->remove($play);
+            $entityManager->flush();
+        } catch (\Exception $exception) {
+            $this->addFlash('danger', 'Inscenace nejde odstranit, protože má (alespoň jedno) své představení. Odstraňte nejprve tyto představení a zkuste to znovu.');
+            return new RedirectResponse($this->generateUrl('redaktor_play_edit', ['id' => $play->getId()]));
+        }
+
+        if (strlen($filename) > 0) {
+            $fileUploader->removeImage($filename);
+        }
+
+        $this->addFlash('success', 'Inscenace byla smazána.');
+        return new RedirectResponse($this->generateUrl('redaktor_play_list'));
+    }
+
+    /**
      * @Route("/admin/play/{id}", name="redaktor_play_edit")
      * @IsGranted("ROLE_REDAKTOR")
      */

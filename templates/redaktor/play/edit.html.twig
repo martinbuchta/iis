@@ -26,10 +26,10 @@
                 <div class="col-12">
                     <div class="card">
                         <div class="card-body">
-                            {#<a href="{{ url('redaktor_hall_remove', {'id': hall.id}) }}"
+                            <a href="{{ url('redaktor_play_remove', {'id': play.id}) }}"
                                class="btn btn-danger"
-                               onclick="return confirm('Opravdu si přejete smazat sál {{ hall.name }}?')"
-                            ><i class="fa fa-trash-alt"></i> Smazat sál</a>#}
+                               onclick="return confirm('Opravdu si přejete smazat inscenaci {{ play.name }}?')"
+                            ><i class="fa fa-trash-alt"></i> Smazat inscenaci</a>
                         </div>
                     </div>
                 </div>
