@@ -14,3 +14,16 @@ section table.table-hover tbody tr {
 .navbar-left {
     margin-left: 15px;
 }
+
+.homepage .navbar {
+    margin-bottom: 50px;
+}
+
+.login-form h1 {
+    margin-bottom: 25px!important;
+}
+
+.homepage .alert {
+    margin-top: -25px;
+    margin-bottom: 50px;
+}
