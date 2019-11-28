@@ -62,8 +62,13 @@ class HallController extends AbstractController
             return new RedirectResponse($this->generateUrl('redaktor_hall_edit', ['id' => $hall->getId()]));
         }
 
-        $entityManager->remove($hall);
-        $entityManager->flush();
+        try {
+            $entityManager->remove($hall);
+            $entityManager->flush();
+        } catch (\Exception $exception) {
+            $this->addFlash('danger', 'Sál nejde smazat, protože v tomto sále se odehrávají některá představení. Nejprve odstraňte tato představení.');
+            return new RedirectResponse($this->generateUrl('redaktor_hall_edit', ['id' => $hall->getId()]));
+        }
         $this->addFlash('success', 'Sál byl odstraněn.');
         return new RedirectResponse($this->generateUrl('redaktor_hall_list'));
     }
