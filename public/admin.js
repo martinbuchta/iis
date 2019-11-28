@@ -62,3 +62,7 @@ function addGenre() {
     return false;
 }
 $("#addGenreModal form").submit(addGenre);
+
+$(".custom-file").removeClass("custom-file");
+$(".custom-file-input").removeClass("custom-file-input");
+$(".custom-file-label").removeClass("custom-file-label");
