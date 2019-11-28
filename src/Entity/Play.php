@@ -81,6 +81,11 @@ class Play
         $this->performances = new ArrayCollection();
     }
 
+    public function __toString()
+    {
+        return $this->name;
+    }
+
     /**
      * @return mixed
      */

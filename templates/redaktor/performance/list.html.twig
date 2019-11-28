@@ -1,0 +1,71 @@
+{% extends 'admin_base.html.twig' %}
+
+{% block title %}Správa představení | Vstupenky{% endblock %}
+
+{% block body %}
+    <section class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                    <h1>Správa představení</h1>
+                </div>
+                <div class="col-sm-6">
+                    <ol class="breadcrumb float-sm-right">
+                        <li class="breadcrumb-item"><a href="{{ url('admin') }}">Admin</a></li>
+                        <li class="breadcrumb-item active">Správa představení</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="content">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-body">
+                            <a href="{{ url('redaktor_performance_add') }}" class="btn btn-success"><i class="fa fa-plus"></i> Přidat představení</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="card-title">Všechna představení</h3>
+                        </div>
+                        <div class="card-body table-responsive p-0">
+                            <table class="table table-hover">
+                                <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Datum</th>
+                                    <th>Název inscenace</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {% for performance in performances %}
+                                    <tr onclick="window.location='{{ url("redaktor_hall_edit", {"id": performance.id}) }}';">
+                                        <td>{{ performance.id }}</td>
+                                        <td>{{ performance.play.name }}</td>
+                                        <td>{{ performance.time | date('j. n. Y H.i') }}</td>
+                                    </tr>
+                                {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+{% endblock %}
+
+{% block stylesheets %}
+    <style>
+        section table tbody tr {
+            cursor: pointer;
+        }
+    </style>
+{% endblock %}

@@ -112,9 +112,19 @@
                     {% if is_granted('ROLE_REDAKTOR') %}
                         <li class="nav-item">
                             <a href="{{ url('redaktor_play_list') }}" class="nav-link {% if app.request.pathInfo == path('redaktor_play_list') %}active{% endif %}">
-                                <i class="nav-icon fas fa-building"></i>
+                                <i class="nav-icon fas fa-theater-masks"></i>
                                 <p>
                                     Inscenace
+                                </p>
+                            </a>
+                        </li>
+                    {% endif %}
+                    {% if is_granted('ROLE_REDAKTOR') %}
+                        <li class="nav-item">
+                            <a href="{{ url('redaktor_performance_list') }}" class="nav-link {% if app.request.pathInfo == path('redaktor_performance_list') %}active{% endif %}">
+                                <i class="nav-icon fas fa-calendar-alt"></i>
+                                <p>
+                                    Představení
                                 </p>
                             </a>
                         </li>

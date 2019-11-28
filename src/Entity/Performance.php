@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Class Performance
@@ -23,26 +24,30 @@ class Performance
     /**
      * @var \DateTime
      * @ORM\Column(type="datetime")
+     * @Assert\NotBlank()
      */
     private $time;
 
     /**
      * @var float
      * @ORM\Column(type="float")
+     * @Assert\GreaterThanOrEqual(0)
      */
     private $price;
 
     /**
-     * @var Play
+     * @var Play|null
      * @ORM\ManyToOne(targetEntity="Play", inversedBy="performances")
      * @ORM\JoinColumn(name="play_id", referencedColumnName="id")
+     * @Assert\NotBlank()
      */
     private $play;
 
     /**
-     * @var Hall
+     * @var Hall|null
      * @ORM\ManyToOne(targetEntity="Hall", inversedBy="performances")
      * @ORM\JoinColumn(name="hall_id", referencedColumnName="id")
+     * @Assert\NotBlank()
      */
     private $hall;
 
@@ -100,9 +105,9 @@ class Performance
     }
 
     /**
-     * @return Play
+     * @return Play|null
      */
-    public function getPlay(): Play
+    public function getPlay(): ?Play
     {
         return $this->play;
     }
@@ -116,9 +121,9 @@ class Performance
     }
 
     /**
-     * @return Hall
+     * @return Hall|null
      */
-    public function getHall(): Hall
+    public function getHall(): ?Hall
     {
         return $this->hall;
     }
