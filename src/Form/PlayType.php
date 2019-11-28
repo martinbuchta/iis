@@ -8,6 +8,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints\File;
 use Symfony\Component\Validator\Constraints\Image;
 
 class PlayType extends AbstractType
@@ -23,12 +24,13 @@ class PlayType extends AbstractType
                 'mapped' => false,
                 'required' => false,
                 'constraints' => [
-                    new Image()
+                    new Image(),
                 ],
             ])
             ->add('category', null, [
                 'label' => 'Kategorie',
                 'placeholder' => 'Vyberte kategorii',
+                'required' => true,
             ])
             ->add('genres', null, [
                 'label' => 'Žánry',

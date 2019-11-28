@@ -45,7 +45,7 @@
                                 </thead>
                                 <tbody>
                                 {% for play in plays %}
-                                    <tr onclick="window.location='{{ url("redaktor_hall_edit", {"id": play.id}) }}';">
+                                    <tr onclick="window.location='{{ url("redaktor_play_edit", {"id": play.id}) }}';">
                                         <td>{{ play.id }}</td>
                                         <td>{{ play.name }}</td>
                                         <td>{{ play.rating }}</td>

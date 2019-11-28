@@ -156,9 +156,19 @@ class Play
     /**
      * @return ArrayCollection
      */
-    public function getGenres(): ArrayCollection
+    public function getGenres(): array
     {
-        return $this->genres;
+        return $this->genres->toArray();
+    }
+
+    public function addGenre(Genre $genre)
+    {
+        $this->genres->add($genre);
+    }
+
+    public function removeGenre(Genre $genre)
+    {
+        $this->genres->removeElement($genre);
     }
 
     /**

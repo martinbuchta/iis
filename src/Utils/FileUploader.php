@@ -2,6 +2,8 @@
 
 namespace App\Utils;
 
+use App\Entity\Play;
+use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 class FileUploader
@@ -29,5 +31,11 @@ class FileUploader
         }
 
         return $fileName;
+    }
+
+    public function removeImage(string $image): void
+    {
+        $filesystem = new Filesystem();
+        $filesystem->remove($this->targetDir.'/'.$image);
     }
 }

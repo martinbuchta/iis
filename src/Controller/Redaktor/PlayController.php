@@ -12,8 +12,10 @@ use App\Utils\Play\PlayManager;
 use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\ORM\EntityRepository;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Finder\Exception\AccessDeniedException;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -103,5 +105,52 @@ class PlayController extends AbstractController
         }
 
         return new JsonResponse(["id" => $genre->getId(), "name" => $genre->getName()]);
+    }
+
+    /**
+     * @Route("/admin/play/{id}-remove-img", name="redaktor_play_remove_image")
+     */
+    public function removeImage(Play $play, FileUploader $fileUploader, EntityManagerInterface $entityManager)
+    {
+        if (strlen($play->getImage()) < 1) {
+            return new BadRequestHttpException();
+        }
+
+        $fileUploader->removeImage($play->getImage());
+        $play->setImage("");
+        $entityManager->flush();
+        $this->addFlash('success', 'Obrázek byl odstraněn.');
+        return new RedirectResponse($this->generateUrl('redaktor_play_edit', ['id' => $play->getId()]));
+    }
+
+    /**
+     * @Route("/admin/play/{id}", name="redaktor_play_edit")
+     * @IsGranted("ROLE_REDAKTOR")
+     */
+    public function edit(Play $play, Request $request, EntityManagerInterface $entityManager, FileUploader $fileUploader)
+    {
+        $form = $this->createForm(PlayType::class, $play);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            /** @var UploadedFile $image */
+            $image = $form->get('image')->getData();
+            if ($image) {
+                if (strlen($play->getImage()) > 0) {
+                    $fileUploader->removeImage($play->getImage());
+                }
+                $imageFileName = $fileUploader->uploadFile($image);
+                $play->setImage($imageFileName);
+            }
+
+            $entityManager->flush();
+            $this->addFlash('success', 'Inscenace byla upravena.');
+            return new RedirectResponse($this->generateUrl('redaktor_play_list'));
+        }
+
+        return $this->render('redaktor/play/edit.html.twig', [
+            'play' => $play,
+            'form' => $form->createView(),
+        ]);
     }
 }
