@@ -62,3 +62,5 @@
 
 /.idea/
 *.lock
+
+/public/uploads/*

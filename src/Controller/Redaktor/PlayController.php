@@ -7,6 +7,7 @@ use App\Entity\Genre;
 use App\Entity\Play;
 use App\Form\PlayType;
 use App\Repository\PlayRepository;
+use App\Utils\FileUploader;
 use App\Utils\Play\PlayManager;
 use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 use Doctrine\ORM\EntityManager;
@@ -14,6 +15,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Finder\Exception\AccessDeniedException;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -39,13 +41,20 @@ class PlayController extends AbstractController
      * @Route("/admin/play/add", name="redaktor_play_add")
      * @IsGranted("ROLE_REDAKTOR")
      */
-    public function add(Request $request, PlayManager $playManager)
+    public function add(Request $request, PlayManager $playManager, FileUploader $fileUploader)
     {
         $play = new Play();
         $form = $this->createForm(PlayType::class, $play);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            /** @var UploadedFile $image */
+            $image = $form->get('image')->getData();
+            if ($image) {
+                $imageFileName = $fileUploader->uploadFile($image);
+                $play->setImage($imageFileName);
+            }
+
             $playManager->add($play);
             $this->addFlash('success', 'Inscenace byla přidána.');
             return new RedirectResponse($this->generateUrl('redaktor_play_list'));
