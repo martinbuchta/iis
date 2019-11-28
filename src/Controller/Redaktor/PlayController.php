@@ -3,6 +3,7 @@
 namespace App\Controller\Redaktor;
 
 use App\Entity\Category;
+use App\Entity\Genre;
 use App\Entity\Play;
 use App\Form\PlayType;
 use App\Repository\PlayRepository;
@@ -73,5 +74,25 @@ class PlayController extends AbstractController
         }
 
         return new JsonResponse(["id" => $category->getId(), "name" => $category->getName()]);
+    }
+
+    /**
+     * @Route("/admin/play/add-genre", name="redaktor_play_genre_add")
+     * @IsGranted("ROLE_REDAKTOR")
+     */
+    public function addGenre(Request $request, EntityManagerInterface $entityManager)
+    {
+        $name = $request->get('name');
+        $genre = new Genre();
+        $genre->setName($name);
+
+        try {
+            $entityManager->persist($genre);
+            $entityManager->flush();
+        } catch (UniqueConstraintViolationException $exception) {
+            throw new BadRequestHttpException();
+        }
+
+        return new JsonResponse(["id" => $genre->getId(), "name" => $genre->getName()]);
     }
 }

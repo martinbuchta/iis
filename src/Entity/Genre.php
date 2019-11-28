@@ -39,6 +39,11 @@ class Genre
         $this->plays = new ArrayCollection();
     }
 
+    public function __toString()
+    {
+        return $this->name;
+    }
+
     /**
      * @return int|null
      */

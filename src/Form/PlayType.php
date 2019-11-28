@@ -20,6 +20,10 @@ class PlayType extends AbstractType
                 'label' => 'Kategorie',
                 'placeholder' => 'Vyberte kategorii',
             ])
+            ->add('genres', null, [
+                'label' => 'Žánry',
+                'expanded' => true,
+            ])
         ;
     }
 
