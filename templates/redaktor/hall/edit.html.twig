@@ -48,7 +48,39 @@
                         {{ form_end(form) }}
                     </div>
                 </div>
+                <div class="col-lg-6">
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="card-title">Představení v tomto sále</h3>
+                        </div>
+                        <div class="card-body">
+                            {% if hall.performances | length < 1 %}
+                                <p>V tomto sále nejsou žádná představení</p>
+                            {% else %}
+                                <table class="table table-hover">
+                                    <thead>
+                                    <tr>
+                                        <th>#</th>
+                                        <th>Název inscenace</th>
+                                        <th>Datum</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    {% for performance in hall.performances %}
+                                        <tr onclick="window.location='{{ url("redaktor_performance_edit", {"id": performance.id}) }}';">
+                                            <td>{{ performance.id }}</td>
+                                            <td>{{ performance.play.name }}</td>
+                                            <td>{{ performance.time | date('j. n. Y H.i') }}</td>
+                                        </tr>
+                                    {% endfor %}
+                                    </tbody>
+                                </table>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </section>
 {% endblock %}
+

@@ -150,4 +150,12 @@ class Hall
     {
         $this->name = $name;
     }
+
+    /**
+     * @return array
+     */
+    public function getPerformances(): array
+    {
+        return $this->performances->toArray();
+    }
 }

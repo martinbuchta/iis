@@ -2,3 +2,7 @@
     margin-bottom: 5px;
     margin-top: 4px;
 }
+
+section table.table-hover tbody tr {
+    cursor: pointer;
+}

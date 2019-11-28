@@ -99,7 +99,7 @@ class HallController extends AbstractController
 
             $seatsManager->resizeHall($hall);
             $this->addFlash('success', 'Sál byl upraven.');
-            return new RedirectResponse($this->generateUrl('redaktor_hall_list'));
+            return new RedirectResponse($this->generateUrl('redaktor_hall_edit', ['id' => $hall->getId()]));
         }
 
         return $this->render('redaktor/hall/edit.html.twig', [

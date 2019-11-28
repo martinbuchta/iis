@@ -168,7 +168,7 @@ class PlayController extends AbstractController
 
             $entityManager->flush();
             $this->addFlash('success', 'Inscenace byla upravena.');
-            return new RedirectResponse($this->generateUrl('redaktor_play_list'));
+            return new RedirectResponse($this->generateUrl('redaktor_play_edit', ['id' => $play->getId()]));
         }
 
         return $this->render('redaktor/play/edit.html.twig', [

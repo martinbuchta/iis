@@ -79,7 +79,7 @@ class PerformanceController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->flush();
             $this->addFlash('success', 'Představení bylo upraveno.');
-            return new RedirectResponse($this->generateUrl('redaktor_performance_list'));
+            return new RedirectResponse($this->generateUrl('redaktor_performance_edit', ['id' => $performance->getId()]));
         }
 
         return $this->render('redaktor/performance/edit.html.twig', [
