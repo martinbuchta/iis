@@ -50,7 +50,26 @@ class PerformanceController extends AbstractController
     }
 
     /**
+     * @Route("/admin/performance/{id}-remove", name="redaktor_performance_remove")
+     * @IsGranted("ROLE_REDAKTOR")
+     */
+    public function remove(Performance $performance, EntityManagerInterface $entityManager)
+    {
+        try {
+            $entityManager->remove($performance);
+            $entityManager->flush();
+        } catch (\Exception $exception) {
+            $this->addFlash('Představení nejde odstranit, protože existují rezervace na toto představení. Nejprve prosím odstrańte tyto rezervace.');
+            return new RedirectResponse($this->generateUrl('redaktor_performance_edit', ['id' => $performance->getId()]));
+        }
+
+        $this->addFlash('success', 'Představení bylo smazáno.');
+        return new RedirectResponse($this->generateUrl('redaktor_performance_list'));
+    }
+
+    /**
      * @Route("/admin/performance/{id}", name="redaktor_performance_edit")
+     * @IsGranted("ROLE_REDAKTOR")
      */
     public function edit(Performance $performance, Request $request, EntityManagerInterface $entityManager)
     {
