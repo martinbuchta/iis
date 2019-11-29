@@ -141,4 +141,12 @@ class Performance
         $this->hall = $hall;
     }
 
+    /**
+     * @return array
+     */
+    public function getTickets(): array
+    {
+        return $this->tickets->toArray();
+    }
+
 }

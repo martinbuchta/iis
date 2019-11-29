@@ -21,4 +21,15 @@ class PerformanceRepository extends ServiceEntityRepository
             ->getQuery()
             ->getResult();
     }
+
+    public function getAllOrderedSeats(Performance $performance): array
+    {
+        return $this->getEntityManager()->createQuery('
+            SELECT s FROM App:Seat s
+            JOIN s.tickets t
+            WHERE t.performance = :performance
+        ')
+        ->setParameter('performance', $performance)
+        ->getResult();
+    }
 }

@@ -107,4 +107,13 @@ class Seat
     {
         $this->hall = $hall;
     }
+
+    public function toArray()
+    {
+        return [
+            'id' => $this->getId(),
+            'row' => $this->getRow(),
+            'number' => $this->getNumber(),
+        ];
+    }
 }

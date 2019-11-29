@@ -1,0 +1,32 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ performance.name }} | Vstupenky{% endblock %}
+
+{% block body %}
+    <div class="container order-page">
+        <div class="row">
+            <div class="col-12">
+                <div class="page-header">
+                    <h1>{{ performance.play.name }}</h1>
+                    <h2>{{ performance.time | date('j.n.Y H.i') }}</h2>
+                </div>
+                {{ performance.play.staring | raw }}
+
+                <div id="hall" class="hall"></div>
+
+                <script>
+                    $(function () {
+                        var seats = {{ seatsJson | raw }};
+                        var orderedSeats = {{ orderedSeatsJson | raw }};
+                        renderHallClickable(seats, orderedSeats, $("#hall"), {{ hallJson | raw }});
+                    });
+                </script>
+
+                {{ form_start(seatsForm) }}
+                {{ form_widget(seatsForm) }}
+                <button class="btn btn-success">Pokračovat</button>
+                {{ form_end(seatsForm) }}
+            </div>
+        </div>
+    </div>
+{% endblock %}

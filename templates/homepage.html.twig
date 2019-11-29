@@ -10,7 +10,7 @@
             </div>
             {% for performance in performances %}
                 <div class="col-lg-4 col-md-6">
-                    <a href="#">
+                    <a href="{{ url('performance_show', {'id': performance.id}) }}">
                         <div class="card">
                             <div class="card-header">
                                 <h3 class="card-title">{{ performance.play.name }}</h3>
@@ -20,6 +20,8 @@
                                     <div class="col-sm-6">
                                         <p>
                                             {{ performance.time | date('j.n.Y H.i') }}
+                                            <br>
+                                            {{ performance.price |number_format(0, ',', ' ') }} Kč
                                         </p>
                                     </div>
                                     <div class="col-sm-6 text-right">

@@ -158,4 +158,32 @@ class Hall
     {
         return $this->performances->toArray();
     }
+
+    /**
+     * @return array
+     */
+    public function getSeats(): array
+    {
+        return $this->seats->toArray();
+    }
+
+    public function getSeatsJson(): string
+    {
+        $seats = [];
+
+        foreach ($this->seats as $seat) {
+            $seats[] = $seat->toArray();
+        }
+
+        return json_encode($seats);
+    }
+
+    public function toArray()
+    {
+        return [
+            'id' => $this->id,
+            'rowCount' => $this->rowCount,
+            'seatsInRow' => $this->seatsInRow,
+        ];
+    }
 }

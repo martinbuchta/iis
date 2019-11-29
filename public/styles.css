@@ -54,3 +54,20 @@ section table.table-hover tbody tr {
 .homepage .performances a:hover {
     text-decoration: none;
 }
+
+.hall {
+    background: rgba(0,0,0,0.1);
+    position: relative;
+}
+
+.hall .seat {
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    background: #ffffff;
+    border-radius: 3px;
+}
+
+.hall .text {
+    position: absolute;
+}
