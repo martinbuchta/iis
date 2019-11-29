@@ -9,8 +9,8 @@ function renderHallClickable(seats, orderedSeats, hallEl, hall)
     var margin = 10;
     var textSpace = 80;
 
-    hallEl.css("width", (seatSize+margin) * hall.rowCount + margin + textSpace);
-    hallEl.css("height", (seatSize+margin) * hall.seatsInRow + margin);
+    hallEl.css("width", (seatSize+margin) * hall.seatsInRow + margin + textSpace);
+    hallEl.css("height", (seatSize+margin) * hall.rowCount + margin);
 
     for (i = 0; i < hall.rowCount; i++) {
         var textEl = $('<div class="text">Řada ' + (i + 1) + '</div>');
