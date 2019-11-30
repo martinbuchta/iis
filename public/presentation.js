@@ -1,4 +1,4 @@
-function renderHallClickable(seats, orderedSeats, hallEl, hall)
+function renderHall(seats, orderedSeats, hallEl, hall, price)
 {
     console.debug(seats);
     console.debug(hallEl);
@@ -20,10 +20,62 @@ function renderHallClickable(seats, orderedSeats, hallEl, hall)
     }
 
     seats.forEach(function (seat) {
-        var seatEl = $('<div class="seat"></div>');
+        var seatEl = $('<div class="seat" data-id="' + seat.id + '" data-price="' + price + '">' + seat.number + '</div>');
         seatEl.css("left", seatSize * (seat.number-1) + margin * seat.number + textSpace);
         seatEl.css("top", seatSize * (seat.row-1) + margin * seat.row);
+
+        if (isSeatOrdered(seat, orderedSeats)) {
+            seatEl.addClass("ordered");
+        }
+
+        seatEl.click(handleSeatClick);
 
         hallEl.append(seatEl);
     });
 }
+
+function handleSeatClick()
+{
+    if ($(this).hasClass("ordered")) {
+        return;
+    }
+
+    var seatId = $(this).data("id");
+    var price = parseFloat($(this).data("price"));
+    $(this).toggleClass("selected");
+    $(".seat" + seatId).click();
+
+    var seatsNumber = $(".seat.selected").length;
+    var priceTotal = seatsNumber * price;
+    $("#priceTotal").text(priceTotal.toString() + " Kč");
+
+    if (seatsNumber > 0) {
+        $(".JS-create-order-btn").removeClass("disabled");
+    } else {
+        $(".JS-create-order-btn").addClass("disabled");
+    }
+}
+
+function isSeatOrdered(seat, orderedSeats)
+{
+    var isOrdered = false;
+
+    orderedSeats.forEach(function (orderedSeat) {
+        if (orderedSeat.id == seat.id) {
+            isOrdered = true;
+        }
+    });
+
+    return isOrdered;
+}
+
+$(function() {
+    $(".JS-create-order-btn").click(function () {
+        if ($(this).hasClass("disabled")) {
+            alert("Vyberte prosím sedadlo.");
+            return false;
+        }
+
+        return true;
+    });
+});

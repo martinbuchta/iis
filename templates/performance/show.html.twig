@@ -11,6 +11,26 @@
                     <h2>{{ performance.time | date('j.n.Y H.i') }}</h2>
                 </div>
                 {{ performance.play.staring | raw }}
+                <p>
+                    Cena za místo: <b>{{ performance.price | number_format(0, ',', ' ') }} Kč</b>
+                </p>
+                <div class="card">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <p>
+                                    Cena celkem: <b id="priceTotal">0 Kč</b>
+                                </p>
+                            </div>
+                            <div class="col-sm-6 text-right">
+                                <button type="button" class="btn btn-primary JS-create-order-btn disabled" data-toggle="modal" data-target="#staticBackdrop">
+                                    Pokračovat
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
 
                 <div id="hall" class="hall"></div>
 
@@ -18,13 +38,31 @@
                     $(function () {
                         var seats = {{ seatsJson | raw }};
                         var orderedSeats = {{ orderedSeatsJson | raw }};
-                        renderHallClickable(seats, orderedSeats, $("#hall"), {{ hallJson | raw }});
+                        var price = {{ performance.price }};
+                        renderHall(seats, orderedSeats, $("#hall"), {{ hallJson | raw }}, price);
                     });
                 </script>
+            </div>
+        </div>
+    </div>
 
+    <div class="modal fade" id="staticBackdrop" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
                 {{ form_start(seatsForm) }}
-                {{ form_widget(seatsForm) }}
-                <button class="btn btn-success">Pokračovat</button>
+                <div class="modal-header">
+                    <h5 class="modal-title" id="staticBackdropLabel">Rezervace</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    {{ form_widget(seatsForm) }}
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Zavřít</button>
+                    <button class="btn btn-primary">Rezervovat</button>
+                </div>
                 {{ form_end(seatsForm) }}
             </div>
         </div>

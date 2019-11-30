@@ -92,7 +92,7 @@ class HallController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             if ($hallRepository->existOrderToHall($hall) && ($hall->getRowCount() < $rows || $hall->getSeatsInRow() < $seats)) {
-                $this->addFlash('danger', 'Nemůžete zmenšovat sál, pokud existují rezervace k tomuto sálu. Nejdříve smažte rezervace, vytvořte nový sál.');
+                $this->addFlash('danger', 'Nemůžete zmenšovat sál, pokud existují rezervace k tomuto sálu. Nejdříve smažte rezervace, nebo vytvořte nový sál.');
                 return new RedirectResponse($request->getUri());
             }
             $entityManager->flush();
