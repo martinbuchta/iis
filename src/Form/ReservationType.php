@@ -29,27 +29,28 @@ class ReservationType extends AbstractType
 
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder
-            ->add('name', null, [
-                'label' => 'Jméno',
-                'constraints' => [
-                    new NotBlank(),
-                ],
-            ])
-            ->add('surname', null, [
-                'label' => 'Příjmení',
-                'constraints' => [
-                    new NotBlank(),
-                ],
-            ])
-            ->add('email', EmailType::class, [
-                'label' => 'Email',
-                'constraints' => [
-                    new NotBlank(),
-                    new Email(),
-                ],
-            ])
-        ;
+        if ($options['anonymous']) {
+            $builder
+                ->add('name', null, [
+                    'label' => 'Jméno',
+                    'constraints' => [
+                        new NotBlank(),
+                    ],
+                ])
+                ->add('surname', null, [
+                    'label' => 'Příjmení',
+                    'constraints' => [
+                        new NotBlank(),
+                    ],
+                ])
+                ->add('email', EmailType::class, [
+                    'label' => 'Email',
+                    'constraints' => [
+                        new NotBlank(),
+                        new Email(),
+                    ],
+                ]);
+        }
 
         /** @var Performance $performance */
         $performance = $options['performance'];
@@ -73,7 +74,7 @@ class ReservationType extends AbstractType
 
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setRequired('performance');
+        $resolver->setRequired(['performance', 'anonymous']);
         $resolver->setDefaults([
             'data_class' => Reservation::class,
         ]);

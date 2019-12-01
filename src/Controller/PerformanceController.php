@@ -20,7 +20,15 @@ class PerformanceController extends AbstractController
     public function show(Performance $performance, PerformanceRepository $performanceRepository, Request $request, ReservationCreator $creator)
     {
         $reservation = new Reservation();
-        $seatsForm = $this->createForm(ReservationType::class, $reservation, ['performance' => $performance]);
+
+        if ($this->getUser()) {
+            $reservation->setUser($this->getUser());
+        }
+
+        $seatsForm = $this->createForm(ReservationType::class, $reservation, [
+            'performance' => $performance,
+            'anonymous' => ($this->getUser()) ? false : true,
+        ]);
         $orderedSeats = $performanceRepository->getAllOrderedSeats($performance);
         $orderedSeatsArray = [];
         foreach ($orderedSeats as $orderedSeat) {

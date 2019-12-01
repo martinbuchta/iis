@@ -29,19 +29,19 @@ class Reservation
 
     /**
      * @var string|null
-     * @ORM\Column(type="string", length=100)
+     * @ORM\Column(type="string", length=100, nullable=true)
      */
     private $name;
 
     /**
      * @var string|null
-     * @ORM\Column(type="string", length=100)
+     * @ORM\Column(type="string", length=100, nullable=true)
      */
     private $surname;
 
     /**
      * @var string|null
-     * @ORM\Column(type="string", length=180)
+     * @ORM\Column(type="string", length=180, nullable=true)
      */
     private $email;
 
