@@ -52,6 +52,11 @@ class Seat
         $this->hall = $hall;
     }
 
+    public function __toString()
+    {
+        return 'Řada ' . $this->row . ' / sedadlo ' . $this->number;
+    }
+
     /**
      * @return int|null
      */
