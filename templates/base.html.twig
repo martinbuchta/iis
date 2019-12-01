@@ -59,6 +59,7 @@
                             {{ app.user.name }} {{ app.user.surname }}
                         </a>
                         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <a class="dropdown-item" href="{{ url('profile') }}">Profil</a>
                             <a class="dropdown-item" href="{{ url('app_logout') }}">Odhlásit se</a>
                         </div>
                     </li>
