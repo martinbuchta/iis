@@ -25,10 +25,13 @@ class PasswordChanger
         $this->entityManager = $entityManager;
     }
 
-    public function changePassword(User $user, string $plainPassword): void
+    public function changePassword(User $user, string $plainPassword, bool $flush = true): void
     {
         $encoded = $this->passwordEncoder->encodePassword($user, $plainPassword);
         $user->setPassword($encoded);
-        $this->entityManager->flush();
+
+        if ($flush) {
+            $this->entityManager->flush();
+        }
     }
 }

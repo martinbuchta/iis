@@ -75,5 +75,10 @@
             </div>
         </div>
     </div>
+        {% if not seatsForm.vars.valid %}
+            <script>
+                $("#staticBackdrop").modal('show');
+            </script>
+        {% endif %}
     {% endif %}
 {% endblock %}

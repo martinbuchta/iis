@@ -39,7 +39,7 @@ class ReservationCreator
         return true;
     }
 
-    public function createReservation(Reservation $reservation, array $seats, Performance $performance)
+    public function createReservation(Reservation $reservation, array $seats, Performance $performance, bool $flush = true)
     {
         $this->entityManager->persist($reservation);
         $this->entityManager->flush();
@@ -53,7 +53,9 @@ class ReservationCreator
             $this->entityManager->persist($ticket);
         }
 
-        $this->entityManager->flush();
+        if ($flush) {
+            $this->entityManager->flush();
+        }
     }
 
     public function addSeatsToReservations(Reservation $reservation, array $seats)

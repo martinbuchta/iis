@@ -10,9 +10,12 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
+use Symfony\Component\Form\Extension\Core\Type\PasswordType;
+use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\Email;
+use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\NotBlank;
 
 class ReservationType extends AbstractType
@@ -49,7 +52,23 @@ class ReservationType extends AbstractType
                         new NotBlank(),
                         new Email(),
                     ],
-                ]);
+                ])
+                ->add('plainPassword', RepeatedType::class, [
+                    'mapped' => false,
+                    'type' => PasswordType::class,
+                    'required' => false,
+                    'invalid_message' => 'Hesla se musejí shodovat.',
+                    'first_options' => ['label' => 'Heslo (nezadávejte, pokud chcete pokračovat bez vytvoření účtu)'],
+                    'second_options' => ['label' => 'Zopakujte heslo (nezadávejte, pokud chcete pokračovat bez vytvoření účtu)'],
+                    'constraints' => [
+                        new Length([
+                            'min' => 5,
+                            'minMessage' => 'Heslo by mělo mít alespon {{ limit }} znaků.',
+                            'max' => 4096,
+                        ]),
+                    ],
+                ])
+            ;
         }
 
         /** @var Performance $performance */
