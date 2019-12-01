@@ -167,7 +167,7 @@ class ReservationController extends AbstractController
      */
     public function tickets(Reservation $reservation)
     {
-        if (false == $reservation->canCashierEdit($this->getUser())) {
+        if (false == $reservation->canCashierEdit($this->getUser()) || false == $reservation->isPaid()) {
             throw new AccessDeniedException();
         }
 

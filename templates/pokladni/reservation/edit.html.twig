@@ -32,10 +32,12 @@
                                onclick="return confirm('Opravdu si přejete smazat rezervaci?')"
                             ><i class="fa fa-trash-alt"></i> Smazat rezervaci</a>
                             &nbsp;
-                            <a href="{{ url('admin_tickets', {'id': reservation.id}) }}" class="btn btn-default">
-                                <i class="fa fa-ticket-alt"></i>
-                                Vstupenky
-                            </a>
+                            {% if reservation.paid %}
+                                <a href="{{ url('admin_tickets', {'id': reservation.id}) }}" class="btn btn-default">
+                                    <i class="fa fa-ticket-alt"></i>
+                                    Vstupenky
+                                </a>
+                            {% endif %}
                         </div>
                     </div>
                 </div>
