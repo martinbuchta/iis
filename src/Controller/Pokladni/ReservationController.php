@@ -83,6 +83,11 @@ class ReservationController extends AbstractController
         foreach ($orderedSeats as $orderedSeat) {
             $orderedSeatsArray[] = $orderedSeat->toArray();
         }
+        $reservationSeats = [];
+        foreach ($reservation->getTickets() as $ticket) {
+            $reservationSeats[] = $ticket->getSeat()->toArray();
+        }
+        $reservationSeatsJson = json_encode($reservationSeats);
         $seatsJson = $performance->getHall()->getSeatsJson();
         $orderedSeatsJson = json_encode($orderedSeatsArray);
         $hallJson = json_encode($performance->getHall()->toArray());
@@ -134,6 +139,7 @@ class ReservationController extends AbstractController
             'orderedSeatsJson' => $orderedSeatsJson,
             'hallJson' => $hallJson,
             'seatsForm' => $seatsForm->createView(),
+            'reservationSeatsJson' => $reservationSeatsJson,
         ]);
     }
 }

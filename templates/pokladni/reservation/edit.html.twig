@@ -92,6 +92,24 @@
                             </button>
                         </div>
                     </div>
+
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="card-title">Plánek sálu ({{ reservation.tickets[0].performance.hall.name }})</h3>
+                        </div>
+                        <div class="card-body">
+                            <div id="hallStatic" class="hall hall-static hall-center"></div>
+
+                            <script>
+                                $(function () {
+                                    var seats = {{ seatsJson | raw }};
+                                    var orderedSeats = {{ reservationSeatsJson | raw }};
+                                    var price = {{ performance.price }};
+                                    renderHall(seats, orderedSeats, $("#hallStatic"), {{ hallJson | raw }}, price, true);
+                                });
+                            </script>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -108,7 +126,7 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <div id="hall" class="hall"></div>
+                    <div id="hall" class="hall hall-center"></div>
 
                     <script>
                         $(function () {

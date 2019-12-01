@@ -36,9 +36,14 @@
                 <li class="nav-item {% if app.request.pathInfo == path('homepage') %}active{% endif %}">
                     <a class="nav-link" href="/">Domů</a>
                 </li>
-                {% if is_granted("ROLE_DIVAK") and not is_granted("ROLE_POKLADNI") %}
+                {% if is_granted("ROLE_DIVAK") %}
                     <li class="nav-item {% if app.request.pathInfo == path('my_reservation') %}active{% endif %}">
                         <a class="nav-link" href="{{ url('my_reservation') }}">Moje rezervace</a>
+                    </li>
+                {% endif %}
+                {% if is_granted("ROLE_REDAKTOR") or is_granted("ROLE_POKLADNI") %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url('admin') }}">Administrace</a>
                     </li>
                 {% endif %}
             </ul>

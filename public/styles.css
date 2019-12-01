@@ -76,6 +76,19 @@ section table.table-hover tbody tr {
     cursor: not-allowed;
 }
 
+.hall.hall-static .seat {
+    cursor: default!important;
+}
+
+.hall.hall-static .seat.ordered:before, .hall.hall-static .seat.ordered:after {
+    display: none;
+}
+
+.hall.hall-static .seat.ordered {
+    background: #ff1a1a;
+    color: #ffffff!important;
+}
+
 .hall .seat.ordered:before, .hall .seat.ordered:after {
     position: absolute;
     content: '';
@@ -118,4 +131,13 @@ section table.table-hover tbody tr {
 .order-page .card p {
     margin: 0;
     line-height: 44px;
+}
+
+.hall {
+    font-size: 0.8125rem;
+}
+
+.hall-center {
+    margin-left: auto;
+    margin-right: auto;
 }

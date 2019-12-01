@@ -1,10 +1,5 @@
-function renderHall(seats, orderedSeats, hallEl, hall, price)
+function renderHall(seats, orderedSeats, hallEl, hall, price, isStatic=false)
 {
-    console.debug(seats);
-    console.debug(hallEl);
-    console.debug(orderedSeats);
-    console.debug(hall);
-
     var seatSize = 20;
     var margin = 10;
     var textSpace = 80;
@@ -28,7 +23,9 @@ function renderHall(seats, orderedSeats, hallEl, hall, price)
             seatEl.addClass("ordered");
         }
 
-        seatEl.click(handleSeatClick);
+        if (isStatic == false) {
+            seatEl.click(handleSeatClick);
+        }
 
         hallEl.append(seatEl);
     });

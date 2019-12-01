@@ -18,7 +18,7 @@ class ReservationController extends AbstractController
         $reservations = $user->getReservations();
 
         return $this->render('my_reservations.html.twig',[
-            'reservations' => $reservations,
+            'reservations' => array_reverse($reservations),
         ]);
     }
 }
