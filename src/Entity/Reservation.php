@@ -46,6 +46,12 @@ class Reservation
     private $email;
 
     /**
+     * @var bool
+     * @ORM\Column(type="boolean")
+     */
+    private $paid;
+
+    /**
      * @var ArrayCollection
      * @ORM\OneToMany(targetEntity="Ticket", mappedBy="reservation")
      */
@@ -62,6 +68,7 @@ class Reservation
     {
         $this->tickets = new ArrayCollection();
         $this->createdAt = new \DateTime();
+        $this->paid = false;
     }
 
     /**
@@ -150,6 +157,38 @@ class Reservation
     public function setUser(?User $user): void
     {
         $this->user = $user;
+    }
+
+    /**
+     * @param bool $paid
+     */
+    public function setPaid(bool $paid): void
+    {
+        $this->paid = $paid;
+    }
+
+    public function isPaid(): bool
+    {
+        return $this->paid;
+    }
+
+    /**
+     * @return array
+     */
+    public function getTickets(): array
+    {
+        return $this->tickets->toArray();
+    }
+
+    public function getPrice(): float
+    {
+        $price = 0.;
+
+        foreach ($this->tickets as $ticket) {
+            $price += $ticket->getPrice();
+        }
+
+        return $price;
     }
 }
 

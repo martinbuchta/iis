@@ -178,10 +178,10 @@ class User implements UserInterface
     }
 
     /**
-     * @return ArrayCollection
+     * @return array
      */
-    public function getReservations(): ArrayCollection
+    public function getReservations(): array
     {
-        return $this->reservations;
+        return $this->reservations->toArray();
     }
 }

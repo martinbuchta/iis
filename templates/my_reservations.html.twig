@@ -1,0 +1,46 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Moje rezervace | Vstupenky{% endblock %}
+
+{% block body %}
+    <div class="container">
+        <div class="page-header">
+            <h1>Moje rezervace</h1>
+        </div>
+
+        {% if reservations | length == 0 %}
+            <p>Nemáte žádné rezervace.</p>
+        {% else %}
+            <table class="table">
+                <thead>
+                    <tr>
+                        <td>#</td>
+                        <td>Představení</td>
+                        <td>Vytvořeno</td>
+                        <td>Počet míst</td>
+                        <td>Cena</td>
+                        <td>Zaplaceno</td>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for reservation in reservations %}
+                        <tr>
+                            <td>{{ reservation.id }}</td>
+                            <td>{{ reservation.tickets[0].performance.name }}</td>
+                            <td>{{ reservation.createdAt | date('j.n.Y H.i') }}</td>
+                            <td>{{ reservation.tickets | length }}</td>
+                            <td>{{ reservation.price | number_format(0, ',', ' ') }} Kč</td>
+                            <td>
+                                {% if reservation.paid %}
+                                    <i class="fas fa-check"></i>
+                                {% else %}
+                                    <i class="fas fa-times"></i>
+                                {% endif %}
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        {% endif %}
+    </div>
+{% endblock %}

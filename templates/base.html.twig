@@ -33,9 +33,14 @@
 
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav mr-auto navbar-left">
-                <li class="nav-item active">
-                    <a class="nav-link" href="/">Domů <span class="sr-only">(aktuální)</span></a>
+                <li class="nav-item {% if app.request.pathInfo == path('homepage') %}active{% endif %}">
+                    <a class="nav-link" href="/">Domů</a>
                 </li>
+                {% if is_granted("ROLE_DIVAK") and not is_granted("ROLE_POKLADNI") %}
+                    <li class="nav-item {% if app.request.pathInfo == path('my_reservation') %}active{% endif %}">
+                        <a class="nav-link" href="{{ url('my_reservation') }}">Moje rezervace</a>
+                    </li>
+                {% endif %}
             </ul>
 
             <ul class="navbar-nav navbar-right">
