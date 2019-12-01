@@ -43,6 +43,16 @@ class PerformanceController extends AbstractController
 
         if ($seatsForm->isSubmitted() && $seatsForm->isValid()) {
             $seats = $seatsForm->get('seats')->getData();
+            $hall = $performance->getHall();
+            if (count($seats) > 6) {
+                if ($this->getUser() && ($this->getUser()->getRole() == "ROLE_ADMINISTRATOR" || in_array($hall, $this->getUser()->getHalls()))) {
+
+                } else {
+                    $this->addFlash('danger', 'Můžete si objednat nejvýše 6 sedadel.');
+                    return new RedirectResponse($request->getUri());
+                }
+            }
+
             if (false == $creator->areSeatsAvailable($seats, $performance)) {
                 $this->addFlash('danger', 'Vybraná sedadla již nejsou k dispozici. Vyberte si prosím jiná.');
                 return new RedirectResponse($request->getUri());

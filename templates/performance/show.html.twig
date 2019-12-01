@@ -38,15 +38,15 @@
                     </div>
                 </div>
 
-
-                <div id="hall" class="hall"></div>
+                <div id="hall" class="hall"
+                     {% if not app.user or (app.user.role != "ROLE_ADMINISTRATOR" and performance.hall not in app.user.halls) %}data-limit="6"{% endif %}></div>
 
                 <script>
                     $(function () {
                         var seats = {{ seatsJson | raw }};
                         var orderedSeats = {{ orderedSeatsJson | raw }};
                         var price = {{ performance.price }};
-                        renderHall(seats, orderedSeats, $("#hall"), {{ hallJson | raw }}, price);
+                        renderHall(seats, orderedSeats, $("#hall"), {{ hallJson | raw }}, price, false);
                     });
                 </script>
             </div>

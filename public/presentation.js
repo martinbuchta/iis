@@ -33,6 +33,13 @@ function renderHall(seats, orderedSeats, hallEl, hall, price, isStatic=false)
 
 function handleSeatClick()
 {
+    var limit = parseInt($("#hall").data("limit"));
+
+    if (limit > 0 && $("#hall .seat.selected").length >= limit) {
+        alert("Můžete objednat nejvýše 6 míst.");
+        return false;
+    }
+
     if ($(this).hasClass("ordered")) {
         return;
     }
