@@ -1,0 +1,62 @@
+{% extends 'admin_base.html.twig' %}
+
+{% block title %}Správa rezervací | Vstupenky{% endblock %}
+
+{% block body %}
+    <section class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                    <h1>Rezervace #{{ reservation.id }}</h1>
+                </div>
+                <div class="col-sm-6">
+                    <ol class="breadcrumb float-sm-right">
+                        <li class="breadcrumb-item"><a href="{{ url('admin') }}">Admin</a></li>
+                        <li class="breadcrumb-item"><a href="{{ url('pokladni_reservation_list') }}">Správa rezervací</a></li>
+                        <li class="breadcrumb-item active">Rezervace #{{ reservation.id }}</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="content">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-body">
+                            {#<a href="{{ url('redaktor_hall_remove', {'id': hall.id}) }}"
+                               class="btn btn-danger"
+                               onclick="return confirm('Opravdu si přejete smazat sál {{ hall.name }}?')"
+                            ><i class="fa fa-trash-alt"></i> Smazat sál</a>#}
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="card JS-reservation-edit">
+                        {{ form_start(form) }}
+                        <div class="card-header">
+                            <h3 class="card-title">
+                                Upravit rezervaci
+                            </h3>
+                        </div>
+                        <div class="card-body">
+                            {{ form_row(form.user) }}
+                            <div class="JS-no-user">
+                                {{ form_row(form.name) }}
+                                {{ form_row(form.surname) }}
+                                {{ form_row(form.email) }}
+                            </div>
+                            {{ form_row(form.paid) }}
+                        </div>
+                        <div class="card-footer">
+                            <button class="btn btn-success float-right">Upravit rezervaci</button>
+                        </div>
+                        {{ form_end(form) }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}

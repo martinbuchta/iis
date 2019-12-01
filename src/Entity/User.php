@@ -64,6 +64,11 @@ class User implements UserInterface
         return $this->id;
     }
 
+    public function __toString()
+    {
+        return $this->name . ' ' . $this->surname . ' (' . $this->email . ')';
+    }
+
     public function getEmail(): ?string
     {
         return $this->email;

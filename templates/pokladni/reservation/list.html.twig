@@ -49,7 +49,7 @@
                                 </thead>
                                 <tbody>
                                 {% for reservation in reservations %}
-                                    <tr onclick="window.location='{{ url("redaktor_hall_edit", {"id": reservation.id}) }}';">
+                                    <tr onclick="window.location='{{ url("pokladni_reservation_edit", {"id": reservation.id}) }}';">
                                         <td>{{ reservation.id }}</td>
                                         <td>{{ reservation.tickets[0].performance.name }}</td>
                                         <td>{{ reservation.createdAt | date('j.n.Y H.i') }}</td>

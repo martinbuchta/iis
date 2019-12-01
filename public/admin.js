@@ -70,3 +70,15 @@ $(".custom-file-label").removeClass("custom-file-label");
 if ($(".invalid-feedback .d-block:contains('Soubor je příliš velký')").length > 1) {
     $(".invalid-feedback .d-block:contains('Soubor je příliš velký')").slice(1).remove();
 }
+
+$(".JS-reservation-edit #reservation_edit_user").change(function() {
+    var user = parseInt($("#reservation_edit_user").val());
+
+    if (user > 0) {
+        $(".JS-no-user input").prop("required", false);
+        $(".JS-no-user").hide();
+    } else {
+        $(".JS-no-user input").prop("required", true);
+        $(".JS-no-user").show();
+    }
+}).change();
