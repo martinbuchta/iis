@@ -1,0 +1,25 @@
+<!doctype html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>Vsupenky</title>
+        <link rel="stylesheet" href="/iis/public/tickets.css">
+    </head>
+    <body>
+        <page size="A4">
+            {% for ticket in reservation.tickets %}
+                <div class="ticket">
+                    <h1>{{ ticket.performance.play.name }}</h1>
+                    <h2>{{ ticket.performance.time | date('j.n.Y H.i') }}</h2>
+                    <h2>{{ ticket.seat.hall.name }}</h2>
+                    <p>{{ ticket.seat.hall.address }}</p>
+                    <p>{{ ticket.seat }}</p>
+                </div>
+                {% if loop.index % 4 == 0 and loop.index < (reservation.tickets | length) %}
+                    </page>
+                    <page size="A4">
+                {% endif %}
+            {% endfor %}
+        </page>
+    </body>
+</html>

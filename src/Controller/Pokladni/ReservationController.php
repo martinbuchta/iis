@@ -106,6 +106,11 @@ class ReservationController extends AbstractController
                 return new RedirectResponse($request->getUri());
             }
 
+            if (count($seats) == 0) {
+                $this->addFlash('warning', 'Vyberte sedadlo, které chcete přidat.');
+                return new RedirectResponse($request->getUri());
+            }
+
             $creator->addSeatsToReservations($reservation, $seats);
             $this->addFlash('success', 'Sedadla byla přidána.');
             return new RedirectResponse($request->getUri());

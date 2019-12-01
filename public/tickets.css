@@ -1,0 +1,33 @@
+/*
+A4 zdroj:
+https://codepen.io/rafaelcastrocouto/pen/LFAes
+ */
+body {
+    background: rgb(204,204,204);
+}
+page {
+    background: white;
+    display: block;
+    margin: 0 auto;
+    margin-bottom: 0.5cm;
+    box-shadow: 0 0 0.5cm rgba(0,0,0,0.5);
+}
+page[size="A4"] {
+    width: 21cm;
+    height: 29.7cm;
+}
+/*
+Konec zdroje
+ */
+
+.ticket {
+    text-align: center;
+    height: 25%;
+    padding: 15px;
+    box-sizing: border-box;
+    border-bottom: 2px dashed black;
+}
+
+page .ticket:nth-child(4n) {
+    border-bottom: none;
+}
