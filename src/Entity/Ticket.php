@@ -44,7 +44,7 @@ class Ticket
     /**
      * @var Reservation
      * @ORM\ManyToOne(targetEntity="Reservation", inversedBy="tickets")
-     * @ORM\JoinColumn(name="reservation_id", referencedColumnName="id")
+     * @ORM\JoinColumn(name="reservation_id", referencedColumnName="id", onDelete="CASCADE")
      */
     private $reservation;
 

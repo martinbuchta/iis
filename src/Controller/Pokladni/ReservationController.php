@@ -58,6 +58,18 @@ class ReservationController extends AbstractController
     }
 
     /**
+     * @Route("/admin/reservation/{id}-remove", name="pokladni_reservation_remove")
+     * @IsGranted("ROLE_POKLADNI")
+     */
+    public function remove(Reservation $reservation, EntityManagerInterface $entityManager)
+    {
+        $entityManager->remove($reservation);
+        $entityManager->flush();
+        $this->addFlash('success', 'Rezervace byla zrušena.');
+        return new RedirectResponse($this->generateUrl('pokladni_reservation_list'));
+    }
+
+    /**
      * @Route("/admin/reservation/{id}", name="pokladni_reservation_edit")
      * @IsGranted("ROLE_POKLADNI")
      */
