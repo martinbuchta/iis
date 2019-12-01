@@ -55,4 +55,18 @@ class ReservationCreator
 
         $this->entityManager->flush();
     }
+
+    public function addSeatsToReservations(Reservation $reservation, array $seats)
+    {
+        foreach ($seats as $seat) {
+            $ticket = new Ticket();
+            $ticket->setPrice($reservation->getTickets()[0]->getPerformance()->getPrice());
+            $ticket->setPerformance($reservation->getTickets()[0]->getPerformance());
+            $ticket->setReservation($reservation);
+            $ticket->setSeat($seat);
+            $this->entityManager->persist($ticket);
+        }
+
+        $this->entityManager->flush();
+    }
 }

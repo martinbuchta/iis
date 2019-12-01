@@ -7,7 +7,10 @@ namespace App\Controller\Pokladni;
 use App\Entity\Reservation;
 use App\Entity\Ticket;
 use App\Form\ReservationEditType;
+use App\Form\ReservationType;
+use App\Repository\PerformanceRepository;
 use App\Repository\ReservationRepository;
+use App\Utils\ReservationCreator;
 use Doctrine\ORM\EntityManagerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -58,10 +61,38 @@ class ReservationController extends AbstractController
      * @Route("/admin/reservation/{id}", name="pokladni_reservation_edit")
      * @IsGranted("ROLE_POKLADNI")
      */
-    public function edit(Reservation $reservation, Request $request, EntityManagerInterface $entityManager)
+    public function edit(Reservation $reservation, Request $request, EntityManagerInterface $entityManager, PerformanceRepository $performanceRepository, ReservationCreator $creator)
     {
         $form = $this->createForm(ReservationEditType::class, $reservation);
         $form->handleRequest($request);
+        $performance = $reservation->getTickets()[0]->getPerformance();
+        $orderedSeats = $performanceRepository->getAllOrderedSeats($performance);
+        $orderedSeatsArray = [];
+        foreach ($orderedSeats as $orderedSeat) {
+            $orderedSeatsArray[] = $orderedSeat->toArray();
+        }
+        $seatsJson = $performance->getHall()->getSeatsJson();
+        $orderedSeatsJson = json_encode($orderedSeatsArray);
+        $hallJson = json_encode($performance->getHall()->toArray());
+
+        $seatsForm = $this->createForm(ReservationType::class, $reservation, [
+            'performance' => $performance,
+            'anonymous' => false,
+        ]);
+        $seatsForm->handleRequest($request);
+
+        if ($seatsForm->isSubmitted() && $seatsForm->isValid()) {
+            $seats = $seatsForm->get("seats")->getData();
+
+            if (false == $creator->areSeatsAvailable($seats, $performance)) {
+                $this->addFlash('danger', 'Sedadla již nejsou k dispozici.');
+                return new RedirectResponse($request->getUri());
+            }
+
+            $creator->addSeatsToReservations($reservation, $seats);
+            $this->addFlash('success', 'Sedadla byla přidána.');
+            return new RedirectResponse($request->getUri());
+        }
 
         if ($form->isSubmitted() && $form->isValid()) {
             if ($reservation->getUser() != null) {
@@ -86,6 +117,11 @@ class ReservationController extends AbstractController
         return $this->render('pokladni/reservation/edit.html.twig', [
             'reservation' => $reservation,
             'form' => $form->createView(),
+            'performance' => $performance,
+            'seatsJson' => $seatsJson,
+            'orderedSeatsJson' => $orderedSeatsJson,
+            'hallJson' => $hallJson,
+            'seatsForm' => $seatsForm->createView(),
         ]);
     }
 }

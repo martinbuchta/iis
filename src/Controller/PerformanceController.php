@@ -43,7 +43,6 @@ class PerformanceController extends AbstractController
 
         if ($seatsForm->isSubmitted() && $seatsForm->isValid()) {
             $seats = $seatsForm->get('seats')->getData();
-            dump($seats);
             if (false == $creator->areSeatsAvailable($seats, $performance)) {
                 $this->addFlash('danger', 'Vybraná sedadla již nejsou k dispozici. Vyberte si prosím jiná.');
                 return new RedirectResponse($request->getUri());

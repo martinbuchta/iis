@@ -12,7 +12,8 @@
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
                         <li class="breadcrumb-item"><a href="{{ url('admin') }}">Admin</a></li>
-                        <li class="breadcrumb-item"><a href="{{ url('pokladni_reservation_list') }}">Správa rezervací</a></li>
+                        <li class="breadcrumb-item"><a href="{{ url('pokladni_reservation_list') }}">Správa
+                                rezervací</a></li>
                         <li class="breadcrumb-item active">Rezervace #{{ reservation.id }}</li>
                     </ol>
                 </div>
@@ -42,6 +43,14 @@
                             </h3>
                         </div>
                         <div class="card-body">
+                            <div class="form-group">
+                                <label for="reservation_performance">Představení</label>
+                                <input type="text" disabled readonly class="form-control" value="{{ reservation.tickets[0].performance.name }}">
+                            </div>
+                            <div class="form-group">
+                                <label for="reservation_performance">Cena</label>
+                                <input type="text" disabled readonly class="form-control" value="{{ reservation.price | number_format(2, ',', ' ') }} Kč">
+                            </div>
                             {{ form_row(form.user) }}
                             <div class="JS-no-user">
                                 {{ form_row(form.name) }}
@@ -66,16 +75,19 @@
                                 {% for ticket in reservation.tickets %}
                                     <li class="list-group-item">
                                         <a href="{{ url('pokladni_ticket_remove', {'id': ticket.id}) }}" class="remove"
-                                        onclick="return confirm('Opravdu si přejete odstranit sedadlo {{ ticket.seat }} z rezervace?')">
+                                           onclick="return confirm('Opravdu si přejete odstranit sedadlo {{ ticket.seat }} z rezervace?')">
                                             <i class="fa fa-times"></i>
                                         </a>&nbsp;
                                         {{ ticket.seat }}
+                                        &nbsp;&nbsp;&nbsp;&nbsp;
+                                        {{ ticket.price | number_format(2, ',', ' ') }} Kč
                                     </li>
                                 {% endfor %}
                             </ul>
                         </div>
                         <div class="card-footer">
-                            <button type="button" class="btn btn-default" data-toggle="modal" data-target="#exampleModal">
+                            <button type="button" class="btn btn-default" data-toggle="modal"
+                                    data-target="#exampleModal">
                                 Přidat sedadla
                             </button>
                         </div>
@@ -85,21 +97,34 @@
         </div>
     </section>
 
-    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
+    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog modal-xl" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                    <h5 class="modal-title" id="exampleModalLabel">Přidat sedadla</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
                 <div class="modal-body">
-                    ...
+                    <div id="hall" class="hall"></div>
+
+                    <script>
+                        $(function () {
+                            var seats = {{ seatsJson | raw }};
+                            var orderedSeats = {{ orderedSeatsJson | raw }};
+                            var price = {{ performance.price }};
+                            renderHall(seats, orderedSeats, $("#hall"), {{ hallJson | raw }}, price);
+                        });
+                    </script>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary">Save changes</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Zavřít</button>
+                    {{ form_start(seatsForm) }}
+                    {{ form_widget(seatsForm) }}
+                    <button class="btn btn-success">Přidat sedadla</button>
+                    {{ form_end(seatsForm) }}
                 </div>
             </div>
         </div>
