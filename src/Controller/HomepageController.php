@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Hall;
 use App\Repository\PerformanceRepository;
 use App\Security\SecurityVoter;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -19,6 +20,19 @@ class HomepageController extends AbstractController
 
         return $this->render('homepage.html.twig', [
             'performances' => $performances,
+        ]);
+    }
+
+    /**
+     * @Route("/hall-{id}", name="performance_in_hall")
+     */
+    public function performanceInHall(Hall $hall, PerformanceRepository $repository)
+    {
+        $performances = $repository->findBy(['hall' => $hall]);
+
+        return $this->render('homepage.html.twig', [
+            'performances' => $performances,
+            'hall' => $hall,
         ]);
     }
 

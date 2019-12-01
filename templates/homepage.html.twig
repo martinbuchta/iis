@@ -5,7 +5,11 @@
         <div class="row performances">
             <div class="col-12">
                 <div class="page-header">
-                    <h1>Nejbližší představení</h1>
+                    {% if hall is defined %}
+                        <h1>{{ hall.name }}</h1>
+                    {% else %}
+                        <h1>Nejbližší představení</h1>
+                    {% endif %}
                 </div>
             </div>
             {% for performance in performances %}
