@@ -49,31 +49,33 @@
                                 </thead>
                                 <tbody>
                                 {% for reservation in reservations %}
-                                    <tr onclick="window.location='{{ url("pokladni_reservation_edit", {"id": reservation.id}) }}';">
-                                        <td>{{ reservation.id }}</td>
-                                        <td>{{ reservation.tickets[0].performance.name }}</td>
-                                        <td>{{ reservation.createdAt | date('j.n.Y H.i') }}</td>
-                                        <td>
-                                            {% if reservation.user %}
-                                                {{ reservation.user.name }}
-                                                {{ reservation.user.surname }}
-                                                ({{ reservation.user.email }})
-                                            {% else %}
-                                                {{ reservation.name }}
-                                                {{ reservation.surname }}
-                                                ({{ reservation.email }})
-                                            {% endif %}
-                                        </td>
-                                        <td>{{ reservation.tickets | length }}</td>
-                                        <td>{{ reservation.price | number_format(0, ',', ' ') }} Kč</td>
-                                        <td>
-                                            {% if reservation.paid %}
-                                                <i class="fas fa-check"></i>
-                                            {% else %}
-                                                <i class="fas fa-times"></i>
-                                            {% endif %}
-                                        </td>
-                                    </tr>
+                                    {% if reservation.canCashierEdit(app.user) %}
+                                        <tr onclick="window.location='{{ url("pokladni_reservation_edit", {"id": reservation.id}) }}';">
+                                            <td>{{ reservation.id }}</td>
+                                            <td>{{ reservation.tickets[0].performance.name }}</td>
+                                            <td>{{ reservation.createdAt | date('j.n.Y H.i') }}</td>
+                                            <td>
+                                                {% if reservation.user %}
+                                                    {{ reservation.user.name }}
+                                                    {{ reservation.user.surname }}
+                                                    ({{ reservation.user.email }})
+                                                {% else %}
+                                                    {{ reservation.name }}
+                                                    {{ reservation.surname }}
+                                                    ({{ reservation.email }})
+                                                {% endif %}
+                                            </td>
+                                            <td>{{ reservation.tickets | length }}</td>
+                                            <td>{{ reservation.price | number_format(0, ',', ' ') }} Kč</td>
+                                            <td>
+                                                {% if reservation.paid %}
+                                                    <i class="fas fa-check"></i>
+                                                {% else %}
+                                                    <i class="fas fa-times"></i>
+                                                {% endif %}
+                                            </td>
+                                        </tr>
+                                    {% endif %}
                                 {% endfor %}
                                 </tbody>
                             </table>

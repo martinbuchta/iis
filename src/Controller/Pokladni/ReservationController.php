@@ -18,6 +18,7 @@ use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 class ReservationController extends AbstractController
 {
@@ -42,6 +43,11 @@ class ReservationController extends AbstractController
      */
     public function removeTicket(Ticket $ticket, EntityManagerInterface $entityManager)
     {
+        $reservation = $ticket->getReservation();
+        if (false == $reservation->canCashierEdit($this->getUser())) {
+            throw new AccessDeniedException();
+        }
+
         if (count($ticket->getReservation()->getTickets()) < 2) {
             $this->addFlash('danger', 'Rezervace musí mít alespoň jedno místo.');
             return new RedirectResponse($this->generateUrl('pokladni_reservation_edit', [
@@ -63,6 +69,10 @@ class ReservationController extends AbstractController
      */
     public function remove(Reservation $reservation, EntityManagerInterface $entityManager)
     {
+        if (false == $reservation->canCashierEdit($this->getUser())) {
+            throw new AccessDeniedException();
+        }
+
         $entityManager->remove($reservation);
         $entityManager->flush();
         $this->addFlash('success', 'Rezervace byla zrušena.');
@@ -75,6 +85,10 @@ class ReservationController extends AbstractController
      */
     public function edit(Reservation $reservation, Request $request, EntityManagerInterface $entityManager, PerformanceRepository $performanceRepository, ReservationCreator $creator)
     {
+        if (false == $reservation->canCashierEdit($this->getUser())) {
+            throw new AccessDeniedException();
+        }
+
         $form = $this->createForm(ReservationEditType::class, $reservation);
         $form->handleRequest($request);
         $performance = $reservation->getTickets()[0]->getPerformance();
@@ -153,6 +167,10 @@ class ReservationController extends AbstractController
      */
     public function tickets(Reservation $reservation)
     {
+        if (false == $reservation->canCashierEdit($this->getUser())) {
+            throw new AccessDeniedException();
+        }
+
         return $this->render('tickets.html.twig', [
             'reservation' => $reservation,
         ]);

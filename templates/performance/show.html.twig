@@ -8,7 +8,7 @@
             <div class="col-12">
                 <div class="page-header">
                     <h1>{{ performance.play.name }}</h1>
-                    <h2>{{ performance.time | date('j.n.Y H.i') }}</h2>
+                    <h2>{{ performance.time | date('j.n.Y H.i') }}, {{ performance.hall.name }}</h2>
                 </div>
                 {{ performance.play.staring | raw }}
                 <p>

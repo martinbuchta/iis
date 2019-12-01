@@ -190,5 +190,16 @@ class Reservation
 
         return $price;
     }
+
+    public function canCashierEdit(User $user): bool
+    {
+        $hall = $this->tickets[0]->getPerformance()->getHall();
+
+        if ($user->getRole() == "ROLE_ADMINISTRATOR") {
+            return true;
+        }
+
+        return in_array($hall, $user->getHalls());
+    }
 }
 
