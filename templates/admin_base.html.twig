@@ -129,6 +129,16 @@
                             </a>
                         </li>
                     {% endif %}
+                    {% if is_granted('ROLE_POKLADNI') %}
+                        <li class="nav-item">
+                            <a href="{{ url('pokladni_reservation_list') }}" class="nav-link {% if app.request.pathInfo == path('pokladni_reservation_list') %}active{% endif %}">
+                                <i class="nav-icon fas fa-list-alt"></i>
+                                <p>
+                                    Rezervace
+                                </p>
+                            </a>
+                        </li>
+                    {% endif %}
                 </ul>
             </nav>
             <!-- /.sidebar-menu -->
