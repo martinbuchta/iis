@@ -142,4 +142,14 @@ class ReservationController extends AbstractController
             'reservationSeatsJson' => $reservationSeatsJson,
         ]);
     }
+
+    /**
+     * @Route("/admin/tickets/{id}", name="admin_tickets")
+     */
+    public function tickets(Reservation $reservation)
+    {
+        return $this->render('tickets.html.twig', [
+            'reservation' => $reservation,
+        ]);
+    }
 }
