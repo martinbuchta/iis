@@ -20,7 +20,7 @@
         </div>
     </section>
 
-    <section class="content">
+    <section class="content JS-registration-page">
         <div class="container-fluid">
             <div class="row">
                 <div class="col-lg-6">
@@ -30,7 +30,14 @@
                             <h3 class="card-title">Nový uživatel</h3>
                         </div>
                         <div class="card-body">
-                            {{ form_widget(form) }}
+                            {{ form_row(form.name) }}
+                            {{ form_row(form.surname) }}
+                            {{ form_row(form.email) }}
+                            {{ form_row(form.plainPassword) }}
+                            {{ form_row(form.role) }}
+                            <div id="halls" style="display: none;">
+                                {{ form_row(form.halls) }}
+                            </div>
                         </div>
                         <div class="card-footer">
                             <button class="btn btn-success float-right">Přidat uživatele</button>

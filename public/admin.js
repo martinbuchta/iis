@@ -82,3 +82,13 @@ $(".JS-reservation-edit #reservation_edit_user").change(function() {
         $(".JS-no-user").show();
     }
 }).change();
+
+$(".JS-registration-page #registration_form_role, .JS-user-edit #user_admin_role").change(function() {
+    var role = $(this).val();
+
+    if (role == "ROLE_POKLADNI") {
+        $("#halls").show();
+    } else {
+        $("#halls").hide();
+    }
+}).change();

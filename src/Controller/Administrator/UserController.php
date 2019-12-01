@@ -41,8 +41,14 @@ class UserController extends AbstractController
             return new RedirectResponse($this->generateUrl('administrator_manage_user', ['id' => $user->getId()]));
         }
 
-        $entityManager->remove($user);
-        $entityManager->flush();
+        try {
+            $entityManager->remove($user);
+            $entityManager->flush();
+        } catch (\Exception $exception) {
+            $this->addFlash('danger', 'Uživatel nejde smazat, protože má nějaké objednávky. Smažte nejpre objednávky prosím.');
+            return new RedirectResponse($this->generateUrl('administrator_manage_user', ['id' => $user->getId()]));
+        }
+
         $this->addFlash('success', 'Uživatel byl odstraněn.');
         return new RedirectResponse($this->generateUrl('administrator_manage_users'));
     }
@@ -59,6 +65,9 @@ class UserController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $passwordChanger->changePassword($user, $form->get('plainPassword')->getData());
+            if ($user->getRole() != "ROLE_POKLADNI") {
+                $user->clearHalls();
+            }
             $entityManager->persist($user);
             $entityManager->flush();
             $this->addFlash('success', 'Nový uživatel byl vytvořen.');
@@ -83,6 +92,9 @@ class UserController extends AbstractController
         $passwordForm->handleRequest($request);
 
         if ($editForm->isSubmitted() && $editForm->isValid()) {
+            if ($user->getRole() != "ROLE_POKLADNI") {
+                $user->clearHalls();
+            }
             $entityManager->flush();
             $this->addFlash('success', 'Uživatel byl upraven.');
             return new RedirectResponse($this->generateUrl('administrator_manage_user', ['id' => $user->getId()]));

@@ -64,6 +64,12 @@ class Hall
      */
     private $seats;
 
+    /**
+     * @var ArrayCollection
+     * @ORM\ManyToMany(targetEntity="User", mappedBy="halls")
+     */
+    private $cashiers;
+
     public function __construct()
     {
         $this->performances = new ArrayCollection();
@@ -72,6 +78,7 @@ class Hall
         $this->address = "";
         $this->name = "";
         $this->seats = new ArrayCollection();
+        $this->cashiers = new ArrayCollection();
     }
 
     public function __toString()

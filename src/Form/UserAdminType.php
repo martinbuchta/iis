@@ -29,6 +29,11 @@ class UserAdminType extends AbstractType
                     'Divák' => 'ROLE_DIVAK',
                 ],
             ])
+            ->add('halls', null, [
+                'label' => 'Sály',
+                'expanded' => true,
+                'required' => false,
+            ])
         ;
     }
 

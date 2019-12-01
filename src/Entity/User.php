@@ -59,6 +59,18 @@ class User implements UserInterface
      */
     private $reservations;
 
+    /**
+     * @var ArrayCollection
+     * @ORM\ManyToMany(targetEntity="Hall", inversedBy="cashiers")
+     * @ORM\JoinTable(name="cashiers_halls")
+     */
+    private $halls;
+
+    public function __construct()
+    {
+        $this->halls = new ArrayCollection();
+    }
+
     public function getId(): ?int
     {
         return $this->id;
@@ -188,5 +200,28 @@ class User implements UserInterface
     public function getReservations(): array
     {
         return $this->reservations->toArray();
+    }
+
+    /**
+     * @return array
+     */
+    public function getHalls(): array
+    {
+        return $this->halls->toArray();
+    }
+
+    public function clearHalls()
+    {
+        $this->halls->clear();
+    }
+
+    public function addHall(Hall $hall): void
+    {
+        $this->halls->add($hall);
+    }
+
+    public function removeHall(Hall $hall): void
+    {
+        $this->halls->removeElement($hall);
     }
 }
