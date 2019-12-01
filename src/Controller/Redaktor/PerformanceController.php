@@ -8,6 +8,7 @@ use App\Repository\PerformanceRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
@@ -74,9 +75,18 @@ class PerformanceController extends AbstractController
     public function edit(Performance $performance, Request $request, EntityManagerInterface $entityManager)
     {
         $form = $this->createForm(PerformanceType::class, $performance);
+        $hall = $performance->getHall();
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            if ($hall != $performance->getHall() && count($performance->getTickets()) > 0) {
+                $form->get('hall')->addError(new FormError("Nemůžete změnit sál, protože již existuje alespoň jedna rezervace. Nejdříve ji smažte."));
+
+                return $this->render('redaktor/performance/edit.html.twig', [
+                    'performance' => $performance,
+                    'form' => $form->createView(),
+                ]);
+            }
             $entityManager->flush();
             $this->addFlash('success', 'Představení bylo upraveno.');
             return new RedirectResponse($this->generateUrl('redaktor_performance_edit', ['id' => $performance->getId()]));
